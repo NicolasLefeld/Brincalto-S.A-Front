@@ -1,52 +1,67 @@
-import axiosRequest from "./axiosRequest";
+import axiosRequest from './axiosRequest';
 
 function parseData(data, type) {
   let body = {};
-  if (type === "spare") {
+  if (type === 'spare') {
     body = {
       type,
       quantity: data.quantity,
-      product: {
-        type: data.product,
-      },
+      product: data.product,
+      comment: data.comment,
     };
   } else {
-    body = {
-      type,
-      quantity: data.quantity,
-      product: {
-        type: data.product,
-        costPerLitter: data.costPerLitter,
-        availableLiters: data.availableLiters,
-      },
-    };
+    if (data.isMovement) {
+      console.log(data);
+      body = {
+        type: 'oilMovement',
+        comment: data.observation,
+        littersTaken: data.littersTaken,
+      };
+    } else {
+      body = {
+        type,
+        liters: data.liters,
+        availableLitters: data.availableLitters,
+        comment: data.comment,
+      };
+    }
   }
   return body;
 }
 
 const getRecord = async (type) => {
   const response = await axiosRequest.get(`/stock/${type}`);
-  console.log("stock fetched ", response.data);
+  console.log('stock fetched ', response.data);
   return response.data.length > 0 ? response.data : [];
 };
 
 const postRecord = async (data, type) => {
   const body = parseData(data, type);
-  const response = await axiosRequest.post("/stock", body);
-  console.log("stock posted ", response.data);
+  const response = await axiosRequest.post('/stock', body);
+  console.log('stock posted ', response.data);
   return response.data;
 };
 
 const updateRecord = async (id, data, type) => {
   const body = parseData(data, type);
-  const response = await axiosRequest.put(`/stock/${id}`, body);
-  console.log("stock updated ", response.data);
+  const response = await axiosRequest.put(`/stock/${id}?type=${type}`, body);
+  console.log('stock updated ', response.data);
   return response.data;
 };
 
-const deleteRecord = async (id) => {
-  const response = await axiosRequest.delete(`/stock/${id}`);
-  console.log("stock deleted ", id, response.data);
+const updateRecordWithMovement = async (id, data, type) => {
+  const body = parseData(data, type);
+  const response = await axiosRequest.put(
+    `/stock/${id}?type=oilMovement`,
+    body,
+  );
+  console.log('stock updated ', response.data);
+  return response.data;
+};
+
+const deleteRecord = async (id, type) => {
+  const response = await axiosRequest.delete(`/stock/${id}?type=${type}`);
+  console.log('stock deleted ', id, response.data);
   return response.data;
 };
 
@@ -54,5 +69,6 @@ export default {
   getRecord,
   postRecord,
   updateRecord,
+  updateRecordWithMovement,
   deleteRecord,
 };

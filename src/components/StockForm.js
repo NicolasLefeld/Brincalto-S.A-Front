@@ -1,9 +1,10 @@
-import { Input, Stack, Button, DrawerFooter } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
-import request from "../api/stockRequests";
+import { Checkbox, Input, Stack, Button, DrawerFooter } from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import request from '../api/stockRequests';
 
 const StockForm = ({ renderData, data, type }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, watch } = useForm();
   const _id = data?._id;
 
   const insertStock = async (data) => {
@@ -13,23 +14,35 @@ const StockForm = ({ renderData, data, type }) => {
   };
 
   const updateStock = async (data) => {
-    await request.updateRecord(_id, data, type);
+    if (data?.isMovement) {
+      await request.updateRecordWithMovement(_id, data, type);
+    } else {
+      await request.updateRecord(_id, data, type);
+    }
     renderData.setRender(!renderData.render);
   };
 
-  if (type === "spare") {
+  const watchIsMovement = watch('isMovement', true);
+
+  if (type === 'spare') {
     if (_id) {
       return (
         <form onSubmit={handleSubmit(updateStock)}>
           <Stack>
             <Input
-              {...register("product")}
+              {...register('product')}
               variant="flushed"
               placeholder="Producto"
-              defaultValue={data.product.type}
+              defaultValue={data.product}
             />
             <Input
-              {...register("quantity")}
+              {...register('comment')}
+              variant="flushed"
+              placeholder="Observación"
+              defaultValue={data.comment}
+            />
+            <Input
+              {...register('quantity')}
               variant="flushed"
               type="number"
               placeholder="Cantidad"
@@ -48,12 +61,17 @@ const StockForm = ({ renderData, data, type }) => {
       <form onSubmit={handleSubmit(insertStock)}>
         <Stack>
           <Input
-            {...register("product")}
+            {...register('product')}
             variant="flushed"
             placeholder="Producto"
           />
           <Input
-            {...register("quantity")}
+            {...register('comment')}
+            variant="flushed"
+            placeholder="Observación"
+          />
+          <Input
+            {...register('quantity')}
             variant="flushed"
             type="number"
             placeholder="Cantidad"
@@ -66,36 +84,52 @@ const StockForm = ({ renderData, data, type }) => {
         </DrawerFooter>
       </form>
     );
-  } else if (type === "oil") {
+  } else if (type === 'oil') {
     if (_id) {
       return (
         <form onSubmit={handleSubmit(updateStock)}>
           <Stack>
             <Input
-              {...register("product")}
+              {...register('comment')}
               variant="flushed"
               placeholder="Aceite"
-              defaultValue={data.product.type}
+              defaultValue={data.comment}
             />
-            <Input
-              {...register("costPerLitter")}
-              variant="flushed"
-              placeholder="Costo por litro"
-              defaultValue={data.product.costPerLitter}
-            />
-            <Input
-              {...register("availableLiters")}
-              variant="flushed"
-              placeholder="Litros disponibles"
-              defaultValue={data.product.availableLiters}
-            />
-            <Input
-              {...register("quantity")}
-              variant="flushed"
-              type="number"
-              placeholder="Cantidad"
-              defaultValue={data.quantity}
-            />
+            <Checkbox {...register('isMovement')} defaultIsChecked>
+              ¿Es un movimiento?
+            </Checkbox>
+            {watchIsMovement ? (
+              <>
+                <Input
+                  {...register('observation')}
+                  variant="flushed"
+                  placeholder="Observación"
+                />
+                <Input
+                  {...register('littersTaken')}
+                  variant="flushed"
+                  type="number"
+                  placeholder="Litros tomados"
+                />
+              </>
+            ) : (
+              <>
+                <Input
+                  {...register('liters')}
+                  variant="flushed"
+                  placeholder="Litros Iniciales"
+                  type="number"
+                  defaultValue={data.liters}
+                />
+                <Input
+                  {...register('availableLitters')}
+                  variant="flushed"
+                  type="number"
+                  placeholder="Litros Disponibles"
+                  defaultValue={data.availableLitters}
+                />
+              </>
+            )}
           </Stack>
           <DrawerFooter>
             <Button type="submit" colorScheme="blue">
@@ -109,25 +143,21 @@ const StockForm = ({ renderData, data, type }) => {
       <form onSubmit={handleSubmit(insertStock)}>
         <Stack>
           <Input
-            {...register("product")}
+            {...register('comment')}
             variant="flushed"
             placeholder="Aceite"
           />
           <Input
-            {...register("costPerLitter")}
+            {...register('liters')}
             variant="flushed"
-            placeholder="Costo por litro"
-          />
-          <Input
-            {...register("availableLiters")}
-            variant="flushed"
-            placeholder="Litros disponibles"
-          />
-          <Input
-            {...register("quantity")}
-            variant="flushed"
+            placeholder="Litros Iniciales"
             type="number"
-            placeholder="Cantidad"
+          />
+          <Input
+            {...register('availableLitters')}
+            variant="flushed"
+            placeholder="Litros Disponibles"
+            type="number"
           />
         </Stack>
         <DrawerFooter>

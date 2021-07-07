@@ -1,18 +1,20 @@
-import { useRef } from "react";
+import { useRef } from 'react';
 
 import {
   Popover as ChakraPopover,
   PopoverTrigger,
   PopoverContent,
   PopoverHeader,
+  PopoverFooter,
   PopoverBody,
   PopoverCloseButton,
   Portal,
   Button,
   ButtonGroup,
-} from "@chakra-ui/react";
+  Box,
+} from '@chakra-ui/react';
 
-const Popover = ({ trigger, body, message }) => {
+const Popover = ({ trigger, body, footer, message }) => {
   return (
     <ChakraPopover closeOnBlur={false} placement="left" closeOnBlur={true}>
       {({ isOpen, onClose }) => (
@@ -22,17 +24,21 @@ const Popover = ({ trigger, body, message }) => {
             <PopoverContent>
               <PopoverHeader>{message}</PopoverHeader>
               <PopoverCloseButton />
-              <PopoverBody>
-                <ButtonGroup>
-                  <>
-                    {body}
-                    <Button colorScheme="blue" onClick={onClose}>
-                      {" "}
-                      Close
-                    </Button>
-                  </>
+              <PopoverBody>{body}</PopoverBody>
+              <PopoverFooter
+                border="0"
+                d="flex"
+                alignItems="center"
+                justifyContent="space-between"
+                pb={4}
+              >
+                {footer}
+                <ButtonGroup size="sm">
+                  <Button colorScheme="red" variant="outline" onClick={onClose}>
+                    Cerrar
+                  </Button>
                 </ButtonGroup>
-              </PopoverBody>
+              </PopoverFooter>
             </PopoverContent>
           </Portal>
         </>

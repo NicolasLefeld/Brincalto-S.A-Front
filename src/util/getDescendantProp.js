@@ -1,5 +1,5 @@
 function getDescendantProp(obj, desc) {
-  const arr = desc.split(".");
+  const arr = desc.split('.');
   while (arr.length && (obj = obj[arr.shift()]));
   return obj;
 }
