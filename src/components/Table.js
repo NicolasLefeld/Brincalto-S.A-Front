@@ -1,12 +1,14 @@
-import React from "react";
-import { Table as ChakraTable } from "@chakra-ui/react";
+import React from 'react';
+import { Table as ChakraTable, Box } from '@chakra-ui/react';
 
 const Table = ({ tableContent }) => {
   return (
-    <ChakraTable variant="striped">
-      {tableContent.head}
-      {tableContent.body}
-    </ChakraTable>
+    <Box overflowX="auto">
+      <ChakraTable variant="striped">
+        {tableContent.head}
+        {tableContent.body}
+      </ChakraTable>
+    </Box>
   );
 };
 

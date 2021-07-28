@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import Table from "../components/Table";
-import Drawer from "../components/Drawer";
-import generateTableContent from "../util/generateTableContent";
-import request from "../api/providerRequests";
-import ProviderForm from "../components/ProviderForm";
+import React, { useState, useEffect } from 'react';
+import Table from '../components/Table';
+import Drawer from '../components/Drawer';
+import generateTableContent from '../util/generateTableContent';
+import request from '../api/providerRequests';
+import ProviderForm from '../components/ProviderForm';
 
 const Provider = () => {
   const [providers, setProviders] = useState([]);
@@ -12,10 +12,10 @@ const Provider = () => {
   const drawerForm = <ProviderForm renderData={renderData} />;
 
   const columns = [
-    { displayName: "Nombre", key: "name", position: 0 },
-    { displayName: "Comentario", key: "comment", position: 1 },
-    { displayName: "Cuenta corriente", key: "checkingAccount", position: 2 },
-    { displayName: "Accion", key: "action", position: 3 },
+    { displayName: 'Nombre', key: 'name', position: 0 },
+    { displayName: 'Comentario', key: 'comment', position: 1 },
+    { displayName: 'Balance', key: 'checkingAccount', position: 2 },
+    { displayName: 'Accion', key: 'action', position: 3 },
   ];
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Provider = () => {
     providers,
     renderData,
     request,
-    drawerForm
+    drawerForm,
   );
 
   return (

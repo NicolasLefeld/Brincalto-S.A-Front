@@ -47,7 +47,7 @@ export default function Navbar() {
           </Box>
         ) : null}
       </Box>
-      <Box p={20}>
+      <Box>
         <Routes />
       </Box>
     </>
