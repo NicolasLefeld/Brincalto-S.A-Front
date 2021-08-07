@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: 'http://localhost:8000',
   validateStatus: (status) => {
-    return [200, 201, 404].includes(status);
+    return [200, 201, 404, 401].includes(status);
   },
 });

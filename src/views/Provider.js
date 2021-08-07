@@ -3,7 +3,7 @@ import Table from '../components/Table';
 import Drawer from '../components/Drawer';
 import generateTableContent from '../util/generateTableContent';
 import request from '../api/providerRequests';
-import ProviderForm from '../components/ProviderForm';
+import ProviderForm from '../components/Provider/ProviderForm';
 
 const Provider = () => {
   const [providers, setProviders] = useState([]);

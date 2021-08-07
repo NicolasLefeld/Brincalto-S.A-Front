@@ -2,7 +2,8 @@ import axiosRequest from './axiosRequest';
 
 function parseData(data, type) {
   let body = {};
-  if (type === 'spare') {
+  const isSpare = type === 'spare';
+  if (isSpare) {
     body = {
       type,
       quantity: data.quantity,
@@ -10,8 +11,8 @@ function parseData(data, type) {
       comment: data.comment,
     };
   } else {
-    if (data.isMovement) {
-      console.log(data);
+    const isMovement = data.isMovement;
+    if (isMovement) {
       body = {
         type: 'oilMovement',
         comment: data.observation,

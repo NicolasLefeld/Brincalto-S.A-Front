@@ -1,6 +1,6 @@
-import { Input, Stack, Button, DrawerFooter } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
-import request from "../api/providerRequests";
+import { Input, Stack, Button, DrawerFooter } from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
+import request from '../../api/providerRequests';
 
 const ProviderForm = ({ renderData, data }) => {
   const { register, handleSubmit } = useForm();
@@ -16,19 +16,19 @@ const ProviderForm = ({ renderData, data }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack>
           <Input
-            {...register("name")}
+            {...register('name')}
             defaultValue={data.name}
             variant="flushed"
             placeholder="Nombre"
           />
           <Input
-            {...register("comment")}
+            {...register('comment')}
             defaultValue={data.comment}
             variant="flushed"
             placeholder="Comentario"
           />
           <Input
-            {...register("checkingAccount")}
+            {...register('checkingAccount')}
             defaultValue={data.checkingAccount}
             variant="flushed"
             type="number"
@@ -52,15 +52,15 @@ const ProviderForm = ({ renderData, data }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack>
-        <Input {...register("name")} variant="flushed" placeholder="Nombre" />
+        <Input {...register('name')} variant="flushed" placeholder="Nombre" />
         <Input
-          {...register("checkingAccount")}
+          {...register('checkingAccount')}
           variant="flushed"
           type="number"
           placeholder="Cuenta corriente"
         />
         <Input
-          {...register("comment")}
+          {...register('comment')}
           variant="flushed"
           placeholder="Comentario"
         />
