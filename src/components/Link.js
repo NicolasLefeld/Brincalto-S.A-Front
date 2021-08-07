@@ -2,7 +2,7 @@ import React from 'react';
 import { Link as ChakraLink, useColorModeValue } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
-const Link = ({ link, label, index }) => {
+const Link = ({ link, label, index, onClick }) => {
   const bg = useColorModeValue('gray.200', 'gray.700');
   return (
     <ChakraLink
@@ -16,6 +16,7 @@ const Link = ({ link, label, index }) => {
       as={RouterLink}
       to={link}
       key={index}
+      onClick={onClick}
     >
       {label}
     </ChakraLink>
