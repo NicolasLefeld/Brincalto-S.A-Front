@@ -3,15 +3,23 @@ import axiosRequest from './axiosRequest';
 function parseData(data, type) {
   let body = {};
   const isSpare = type === 'spare';
+  const isMovement = data.isMovement;
   if (isSpare) {
-    body = {
-      type,
-      quantity: data.quantity,
-      product: data.product,
-      comment: data.comment,
-    };
+    if (isMovement) {
+      body = {
+        type: 'spareMovement',
+        quantity: data.quantity,
+        comment: data.comment,
+      };
+    } else {
+      body = {
+        type,
+        quantity: data.quantity,
+        product: data.product,
+        comment: data.comment,
+      };
+    }
   } else {
-    const isMovement = data.isMovement;
     if (isMovement) {
       body = {
         type: 'oilMovement',
@@ -53,8 +61,9 @@ const updateRecord = async (id, data, type) => {
 
 const updateRecordWithMovement = async (id, data, type) => {
   const body = parseData(data, type);
+  console.log(type);
   const response = await axiosRequest.put(
-    `/stock/${id}?type=oilMovement`,
+    `/stock/${id}?type=${type}Movement`,
     body,
   );
   console.log('stock updated ', response.data);
