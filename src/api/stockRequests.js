@@ -22,8 +22,9 @@ function parseData(data, type) {
       body = {
         type,
         liters: data.liters,
-        availableLitters: data.availableLitters,
         comment: data.comment,
+        costPerLitter: data.costPerLitter,
+        availableLitters: data.availableLitters,
       };
     }
   }
