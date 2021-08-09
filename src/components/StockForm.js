@@ -1,4 +1,11 @@
-import { Checkbox, Input, Stack, Button, DrawerFooter } from '@chakra-ui/react';
+import {
+  Checkbox,
+  Input,
+  Stack,
+  Button,
+  DrawerFooter,
+  Text,
+} from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import request from '../api/stockRequests';
 
@@ -22,6 +29,7 @@ const StockForm = ({ renderData, data, type }) => {
 
   const IsAMovement = watch('isMovement', true);
 
+  console.log(data);
   if (type === 'spare') {
     if (_id) {
       return (
@@ -32,20 +40,44 @@ const StockForm = ({ renderData, data, type }) => {
               variant="flushed"
               placeholder="Producto"
               defaultValue={data.product}
+              isDisabled={IsAMovement}
             />
-            <Input
-              {...register('comment')}
-              variant="flushed"
-              placeholder="Observación"
-              defaultValue={data.comment}
-            />
-            <Input
-              {...register('quantity')}
-              variant="flushed"
-              type="number"
-              placeholder="Cantidad"
-              defaultValue={data.quantity}
-            />
+            <Checkbox {...register('isMovement')} defaultIsChecked>
+              ¿Es un movimiento?
+            </Checkbox>
+            {IsAMovement ? (
+              <>
+                <Input
+                  {...register('comment')}
+                  variant="flushed"
+                  placeholder="Observación"
+                  defaultValue={data.comment}
+                />
+                <Input
+                  {...register('quantity')}
+                  variant="flushed"
+                  type="number"
+                  placeholder="Cantidad"
+                  defaultValue={data.quantity}
+                />
+              </>
+            ) : (
+              <>
+                <Input
+                  {...register('comment')}
+                  variant="flushed"
+                  placeholder="Observación"
+                  defaultValue={data.comment}
+                />
+                <Input
+                  {...register('quantity')}
+                  variant="flushed"
+                  type="number"
+                  placeholder="Cantidad"
+                  defaultValue={data.quantity}
+                />
+              </>
+            )}
           </Stack>
           <DrawerFooter>
             <Button type="submit" colorScheme="blue">

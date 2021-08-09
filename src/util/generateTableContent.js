@@ -24,15 +24,17 @@ const generateTableContent = (
   request,
   drawerForm,
 ) => {
-  const history = useHistory();
   const location = useLocation();
-
+  const { pathname } = location;
   const keys = columns.map(({ key }) => key);
   const thead = columns.map((column, index) => (
     <Th key={uuidv4()}>
       {columns.find((col) => col.position === index).displayName}
     </Th>
   ));
+  const isSpare = pathname.includes('spare');
+  const isOil = pathname.includes('oil');
+
   let tbody = rows.map((row) => (
     <Tr key={uuidv4()}>
       {keys.map((key) => {
@@ -42,7 +44,9 @@ const generateTableContent = (
             <Td key={uuidv4()}>
               <ButtonGroup>
                 <Drawer
-                  activationMessage={`Editar ${location.pathname}`}
+                  activationMessage={`Editar ${
+                    isSpare ? 'Repuesto' : 'Aceite'
+                  }`}
                   triggerButton={
                     <IconButton
                       colorScheme="blue"
@@ -96,7 +100,12 @@ const generateTableContent = (
                                     move.date,
                                   ).toLocaleString('es-AR')}`}
                                 </p>
-                                <p>Litros tomados:{move.littersTaken}</p>
+                                {isOil && (
+                                  <p>Litros tomados: {move.littersTaken}</p>
+                                )}
+                                {isSpare && (
+                                  <p>Cantidad: {move?.quantityTaken}</p>
+                                )}
                                 <hr />
                               </div>
                             </div>
