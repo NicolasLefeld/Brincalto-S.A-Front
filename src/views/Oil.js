@@ -24,7 +24,12 @@ const Oil = () => {
       key: 'liters',
       position: 1,
     },
-    { displayName: 'Acción', key: 'action', position: 2 },
+    {
+      displayName: 'Costo por litro',
+      key: 'costPerLitter',
+      position: 2,
+    },
+    { displayName: 'Acción', key: 'action', position: 3 },
   ];
 
   const tableContent = generateTableContent(

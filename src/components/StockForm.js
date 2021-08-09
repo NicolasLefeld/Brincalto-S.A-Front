@@ -1,5 +1,4 @@
 import { Checkbox, Input, Stack, Button, DrawerFooter } from '@chakra-ui/react';
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import request from '../api/stockRequests';
 
@@ -9,7 +8,6 @@ const StockForm = ({ renderData, data, type }) => {
 
   const insertStock = async (data) => {
     await request.postRecord(data, type);
-
     renderData.setRender(!renderData.render);
   };
 
@@ -22,7 +20,7 @@ const StockForm = ({ renderData, data, type }) => {
     renderData.setRender(!renderData.render);
   };
 
-  const watchIsMovement = watch('isMovement', true);
+  const IsAMovement = watch('isMovement', true);
 
   if (type === 'spare') {
     if (_id) {
@@ -98,7 +96,7 @@ const StockForm = ({ renderData, data, type }) => {
             <Checkbox {...register('isMovement')} defaultIsChecked>
               ¿Es un movimiento?
             </Checkbox>
-            {watchIsMovement ? (
+            {IsAMovement ? (
               <>
                 <Input
                   {...register('observation')}
@@ -127,6 +125,13 @@ const StockForm = ({ renderData, data, type }) => {
                   type="number"
                   placeholder="Litros Disponibles"
                   defaultValue={data.availableLitters}
+                />
+                <Input
+                  {...register('costPerLitter')}
+                  variant="flushed"
+                  type="number"
+                  placeholder="Costo por Litro"
+                  defaultValue={data.costPerLitter}
                 />
               </>
             )}
@@ -158,6 +163,12 @@ const StockForm = ({ renderData, data, type }) => {
             variant="flushed"
             placeholder="Litros Disponibles"
             type="number"
+          />
+          <Input
+            {...register('costPerLitter')}
+            variant="flushed"
+            type="number"
+            placeholder="Costo por Litro"
           />
         </Stack>
         <DrawerFooter>

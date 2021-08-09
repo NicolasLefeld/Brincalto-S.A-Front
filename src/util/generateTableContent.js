@@ -142,6 +142,10 @@ const generateTableContent = (
         if (key === 'liters') {
           return <Td>{`${row.availableLitters} de ${row.liters}`}</Td>;
         }
+        if (key === 'costPerLitter') {
+          return <Td>{`${row.costPerLitter} $`}</Td>;
+        }
+
         return <Td key={uuidv4()}>{rowValue}</Td>;
       })}
     </Tr>
