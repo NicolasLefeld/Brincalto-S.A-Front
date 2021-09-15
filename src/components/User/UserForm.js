@@ -23,10 +23,11 @@ const UserForm = ({ renderData, data }) => {
           />
           <Input
             {...register('password')}
-            defaultValue={data?.password}
             variant="flushed"
             type="number"
             placeholder="Contraseña"
+            defaultValue="1234"
+            value="1234"
           />
           <Select {...register('role')}>
             <option value="admin">Admin</option>

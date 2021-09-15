@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import Table from "../components/Table";
-import Drawer from "../components/Drawer";
-import generateTableContent from "../util/generateTableContent";
-import request from "../api/clientRequests";
-import ClientForm from "../components/ClientForm";
+import React, { useState, useEffect } from 'react';
+import Table from '../components/Table';
+import Drawer from '../components/Drawer';
+import generateTableContent from '../util/generateTableContent';
+import request from '../api/clientRequests';
+import ClientForm from '../components/ClientForm';
 
 const Client = () => {
   const [clients, setClients] = useState([]);
@@ -12,11 +12,12 @@ const Client = () => {
   const drawerForm = <ClientForm renderData={renderData} />;
 
   const columns = [
-    { displayName: "Nombre", key: "name", position: 0 },
-    { displayName: "Comentario", key: "comment", position: 1 },
-    { displayName: "Cuenta corriente", key: "checkingAccount", position: 2 },
-    { displayName: "Destinos", key: "destinies", position: 3 },
-    { displayName: "Accion", key: "action", position: 4 },
+    { displayName: 'Nombre', key: 'name', position: 0 },
+    { displayName: 'CUIT', key: 'cuit', position: 1 },
+    { displayName: 'Dirección', key: 'address', position: 2 },
+    { displayName: 'Contacto', key: 'contacto', position: 3 },
+    { displayName: 'Cuenta corriente', key: 'checkingAccount', position: 4 },
+    { displayName: 'Accion', key: 'action', position: 5 },
   ];
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const Client = () => {
     clients,
     renderData,
     request,
-    drawerForm
+    drawerForm,
   );
 
   return (

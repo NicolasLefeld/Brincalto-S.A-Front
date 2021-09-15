@@ -10,6 +10,7 @@ import {
   IconButton,
   ButtonGroup,
   Center,
+  Text,
 } from '@chakra-ui/react';
 import { DeleteIcon, EditIcon, InfoIcon } from '@chakra-ui/icons';
 import Popover from '../components/Popover';
@@ -40,12 +41,14 @@ const generateTableContent = (
       {keys.map((key) => {
         const rowValue = getDescendantProp(row, key);
         if (key === 'action') {
+          const isSpareOrOil = isSpare || isOil;
+          const handleType = isSpare ? 'Repuesto' : 'Aceite';
           return (
             <Td key={uuidv4()}>
               <ButtonGroup>
                 <Drawer
                   activationMessage={`Editar ${
-                    isSpare ? 'Repuesto' : 'Aceite'
+                    isSpareOrOil ? handleType : pathname
                   }`}
                   triggerButton={
                     <IconButton
@@ -57,7 +60,6 @@ const generateTableContent = (
                 >
                   {React.cloneElement(drawerForm, { data: row })}
                 </Drawer>
-
                 {row.movements && (
                   <Popover
                     message={
@@ -123,6 +125,48 @@ const generateTableContent = (
                   />
                 )}
 
+                {row.assigned_products && (
+                  <Popover
+                    message={
+                      row.assigned_products.length === 0
+                        ? 'No hay productos asignados'
+                        : 'Productos asignados'
+                    }
+                    trigger={
+                      <IconButton
+                        colorScheme="yellow"
+                        aria-label="Remove client"
+                        icon={<InfoIcon />}
+                      />
+                    }
+                    body={
+                      <>
+                        {row.assigned_products.length !== 0 &&
+                          row.assigned_products.map((product, index) => (
+                            <div
+                              key={uuidv4()}
+                              style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                              }}
+                            >
+                              <p
+                                style={{
+                                  alignItems: 'center',
+                                  display: 'flex',
+                                  padding: '20px',
+                                  fontSize: '21px',
+                                }}
+                              >
+                                {index + 1}
+                              </p>
+                              <Text>{product}</Text>
+                            </div>
+                          ))}
+                      </>
+                    }
+                  />
+                )}
                 <Popover
                   message="¿Eliminar definitivamente?"
                   trigger={

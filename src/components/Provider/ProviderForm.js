@@ -28,6 +28,18 @@ const ProviderForm = ({ renderData, data }) => {
             placeholder="Comentario"
           />
           <Input
+            {...register('cuit')}
+            defaultValue={data.cuit}
+            variant="flushed"
+            placeholder="CUIT"
+          />
+          <Input
+            {...register('address')}
+            defaultValue={data.address}
+            variant="flushed"
+            placeholder="Dirección"
+          />
+          <Input
             {...register('checkingAccount')}
             defaultValue={data.checkingAccount}
             variant="flushed"
@@ -63,6 +75,12 @@ const ProviderForm = ({ renderData, data }) => {
           {...register('comment')}
           variant="flushed"
           placeholder="Comentario"
+        />
+        <Input {...register('cuit')} variant="flushed" placeholder="CUIT" />
+        <Input
+          {...register('address')}
+          variant="flushed"
+          placeholder="Dirección"
         />
       </Stack>
       <DrawerFooter>

@@ -1,20 +1,10 @@
 import React from 'react';
-import {
-  Flex,
-  Box,
-  Stack,
-  Link,
-  Heading,
-  Text,
-  ChakraProvider,
-  theme,
-  Grid,
-} from '@chakra-ui/react';
+import { Flex, Box, Stack, Link, Heading, Text, Grid } from '@chakra-ui/react';
 import AuthForm from '../components/Auth/AuthForm';
 
 function Auth() {
   return (
-    <ChakraProvider theme={theme}>
+    <>
       <Box textAlign="center" fontSize="xl">
         <Grid minH="100vh" p={3}>
           <Flex align={'center'} justify={'center'}>
@@ -33,7 +23,7 @@ function Auth() {
           </Flex>
         </Grid>
       </Box>
-    </ChakraProvider>
+    </>
   );
 }
 

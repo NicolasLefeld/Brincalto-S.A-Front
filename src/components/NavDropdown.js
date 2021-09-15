@@ -10,43 +10,36 @@ import {
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { Link as RouterLink } from 'react-router-dom';
+import { isAdmin } from '../util/authHelper';
 
 export default function NavDropdown({ navDropdown }) {
-  const bg = useColorModeValue('gray.200', 'gray.700');
-
-  return navDropdown.map(({ link, label, child }, index) => (
-    <Menu
-      key={index}
-      _hover={{
-        textDecoration: 'none',
-        bg,
-      }}
-    >
-      <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-        {label}
-      </MenuButton>
-      <MenuList>
-        <MenuItem
-          as={RouterLink}
-          to={link + child[0].sublink}
-          _hover={{
-            textDecoration: 'none',
-            bg,
-          }}
+  return navDropdown.map(({ link, label, child }, index) => {
+    return (
+      <Menu key={index}>
+        <MenuButton
+          px={4}
+          py={2}
+          transition="all 0.2s"
+          borderRadius="md"
+          borderWidth="1px"
+          _hover={{ bg: 'gray.400' }}
+          _expanded={{ bg: 'blue.400' }}
+          _focus={{ boxShadow: 'outline' }}
+          as={Button}
+          variant="outline"
+          rightIcon={<ChevronDownIcon />}
         >
-          {child[0].sublabel}
-        </MenuItem>
-        <MenuItem
-          as={RouterLink}
-          to={link + child[1].sublink}
-          _hover={{
-            textDecoration: 'none',
-            bg,
-          }}
-        >
-          {child[1].sublabel}
-        </MenuItem>
-      </MenuList>
-    </Menu>
-  ));
+          {label}
+        </MenuButton>
+        <MenuList>
+          {child &&
+            child.map((item) => (
+              <MenuItem as={RouterLink} to={link + item.sublink}>
+                {item.sublabel}
+              </MenuItem>
+            ))}
+        </MenuList>
+      </Menu>
+    );
+  });
 }

@@ -6,18 +6,27 @@ import {
   HStack,
   IconButton,
   useDisclosure,
-  useColorModeValue,
   Stack,
 } from '@chakra-ui/react';
-import navDropdown from '../config/navDropdown';
+
 import Routes from '../config/Routes';
 import { useLocation } from 'react-router-dom';
 import { isAdmin, isLogin, logout } from '../util/authHelper';
 import Link from './Link';
+import adminDropdown from '../config/Navbar/adminDropdown';
+import operatorDropdown from '../config/Navbar/operatorDropwdown';
 
 export default function Navbar() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const location = useLocation();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleLogout = () => logout();
+
+  const logoutButton = isLogin() && (
+    <HStack as={'nav'} justify={'flex-end'} direction={'column'}>
+      <Link label="Salir" link="/" onClick={handleLogout} />
+    </HStack>
+  );
 
   if (location.pathname === '/') {
     return (
@@ -29,7 +38,7 @@ export default function Navbar() {
 
   return (
     <>
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+      <Box px={4} borderBottom={'1px'} borderColor="gray.200">
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
@@ -45,29 +54,30 @@ export default function Navbar() {
               display={{ base: 'none', md: 'flex' }}
             >
               <Link label="Inicio" link="/home" />
-              <Link label="Proveedores" link="/provider" />
-              {isAdmin() && <Link label="Usuarios" link="/user" />}
-              <NavDropdown navDropdown={navDropdown} />
+              {isAdmin() ? (
+                <NavDropdown navDropdown={adminDropdown} />
+              ) : (
+                <NavDropdown navDropdown={operatorDropdown} />
+              )}
             </HStack>
           </HStack>
-          {isLogin() && (
-            <HStack as={'nav'} justify={'flex-end'} direction={'column'}>
-              <Link label="Cerrar Sesión" link="/" onClick={() => logout()} />
-            </HStack>
-          )}
+
+          {logoutButton}
         </Flex>
         {isOpen ? (
           <Box pb={4}>
             <Stack as={'nav'} spacing={4}>
               <Link label="Inicio" link="/home" />
-              <Link label="Proveedores" link="/provider" />
-              {isAdmin() && <Link label="Usuarios" link="/user" />}
-              <NavDropdown navDropdown={navDropdown} />
+              {isAdmin() ? (
+                <NavDropdown navDropdown={adminDropdown} />
+              ) : (
+                <NavDropdown navDropdown={operatorDropdown} />
+              )}
             </Stack>
           </Box>
         ) : null}
       </Box>
-      <Box p={5}>
+      <Box p={4}>
         <Routes />
       </Box>
     </>
