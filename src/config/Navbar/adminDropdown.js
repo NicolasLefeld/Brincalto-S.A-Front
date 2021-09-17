@@ -3,8 +3,8 @@ const adminDropdown = [
     label: 'Compras',
     link: '/purchases',
     child: [
-      { sublabel: 'Ingreso compra', sublink: '/spare' },
-      { sublabel: 'Consultar C/C Cliente', sublink: '/oil' },
+      { sublabel: 'Ingreso compra', sublink: '/new' },
+      { sublabel: 'Consultar C/C Cliente', sublink: '/cc' },
     ],
   },
   {

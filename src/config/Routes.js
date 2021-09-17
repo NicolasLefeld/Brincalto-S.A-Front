@@ -8,6 +8,7 @@ import Client from '../views/Client';
 import User from '../views/User';
 import Provider from '../views/Provider';
 import Products from '../views/Products';
+import Purchases from '../views/Purchases';
 import PrivateRoute from '../util/PrivateRoute';
 
 const Routes = () => {
@@ -22,6 +23,7 @@ const Routes = () => {
       <PrivateRoute path="/user" exact component={User} />
       <PrivateRoute path="/provider" exact component={Provider} />
       <PrivateRoute path="/products" exact component={Products} />
+      <PrivateRoute path="/purchases/new" exact component={Purchases} />
       <Redirect to="/" />
     </Switch>
   );
