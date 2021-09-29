@@ -23,7 +23,11 @@ const ClientForm = ({ renderData, data }) => {
 
   const handleCreate = () => {
     const onSubmit = async (data) => {
-      await clientRequest.postRecord(data);
+      const parsedData = {
+        ...data,
+        sales: [],
+      };
+      await clientRequest.postRecord(parsedData);
       renderData.setRender(!renderData.render);
     };
 

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import PrivateRoute from '../util/PrivateRoute';
+
 import Auth from '../views/Auth';
 import Landing from '../views/Landing';
 import Oil from '../views/Oil';
@@ -9,7 +11,8 @@ import User from '../views/User';
 import Provider from '../views/Provider';
 import Products from '../views/Products';
 import Purchases from '../views/Purchases';
-import PrivateRoute from '../util/PrivateRoute';
+import Invoices from '../views/Sales/Invoices';
+import Remitos from '../views/Sales/Remitos';
 
 const Routes = () => {
   return (
@@ -24,6 +27,8 @@ const Routes = () => {
       <PrivateRoute path="/provider" exact component={Provider} />
       <PrivateRoute path="/products" exact component={Products} />
       <PrivateRoute path="/purchases/new" exact component={Purchases} />
+      <PrivateRoute path="/sales/invoices" exact component={Invoices} />
+      <PrivateRoute path="/sales/remitos" exact component={Remitos} />
       <Redirect to="/" />
     </Switch>
   );

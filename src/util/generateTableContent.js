@@ -212,6 +212,15 @@ const generateTableContent = (
               return rowProvider;
             }
 
+            if (key === 'client_id') {
+              const rowClient = (
+                <Td key={uuidv4()}>
+                  <Text>{rowValue.name}</Text>
+                </Td>
+              );
+              return rowClient;
+            }
+
             if (key === 'date') {
               const rowProvider = (
                 <Td key={uuidv4()}>

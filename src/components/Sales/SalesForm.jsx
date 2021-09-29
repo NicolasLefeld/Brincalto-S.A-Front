@@ -6,33 +6,26 @@ import {
   Text,
   DrawerFooter,
   Select,
-  Flex,
-  VStack,
-  Center,
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
-import providerRequest from '../../api/providerRequests';
-import purchasesRequests from '../../api/purchasesRequests';
-import DatePicker from '../../components/DatePicker';
+import { useForm } from 'react-hook-form';
+import client from '../../api/clientRequests';
+import salesRequests from '../../api/invoicesRequests';
+import DatePicker from '../DatePicker';
 
-const PurchaseForm = ({ renderData, data }) => {
-  const { register, handleSubmit, control, watch } = useForm({
+const Sales = ({ renderData, data }) => {
+  const { register, handleSubmit, watch } = useForm({
     defaultValues: {
       extras: [],
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'extras',
-  });
-
-  const isProviderSelected = watch('provider_id');
+  const isProviderSelected = watch('client_id');
+  const isTypeSelected = watch('type');
   const importNet = watch('net');
 
   const [startDate, setStartDate] = useState(new Date());
-  const [providers, setProviders] = useState([]);
+  const [clients, setClients] = useState([]);
 
   const _id = data?._id;
 
@@ -40,7 +33,7 @@ const PurchaseForm = ({ renderData, data }) => {
 
   if (_id) {
     const onSubmit = async (data) => {
-      await purchasesRequests.updateRecord(_id, data);
+      await salesRequests.updateRecord(_id, data);
       renderData.setRender(!renderData.render);
     };
 
@@ -93,25 +86,44 @@ const PurchaseForm = ({ renderData, data }) => {
       ...data,
       date: startDate,
     };
-    await purchasesRequests.postRecord(parsedData);
+    await salesRequests.postRecord(parsedData);
     renderData.setRender(!renderData.render);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack>
-        <Text fontSize="xl">Proveedor</Text>
+        <Text fontSize="xl">Clientes</Text>
         <Select
-          {...register('provider_id')}
+          {...register('client_id')}
           variant="flushed"
-          placeholder="Seleccione un proveedor"
+          placeholder="Seleccione un cliente"
         >
-          {providers?.map((provider) => (
-            <option value={provider._id}>{provider.name}</option>
+          {clients?.map((client) => (
+            <option value={client._id}>{client.name}</option>
           ))}
         </Select>
         {isProviderSelected && (
           <>
+            <Text fontSize="xl">Tipo factura</Text>
+            <Select
+              {...register('type')}
+              variant="flushed"
+              placeholder="Seleccione el tipo"
+              required
+            >
+              <option value="A">Factura A</option>
+              <option value="B">Factura B</option>
+            </Select>
+            <Text fontSize="xl">Estado</Text>
+            <Select
+              {...register('status')}
+              variant="flushed"
+              placeholder="Seleccione el estado"
+            >
+              <option value="pending">Pendiente</option>
+              <option value="paid">Procesada</option>
+            </Select>
             <Text fontSize="xl">Datos Factura</Text>
             <Text>Fecha</Text>
             <DatePicker
@@ -129,59 +141,34 @@ const PurchaseForm = ({ renderData, data }) => {
               placeholder="Concepto"
             />
             <Input
-              {...register('net')}
+              {...register('amount')}
               variant="flushed"
-              placeholder="Importe Neto"
+              placeholder="Importe"
               type="number"
             />
-            <Input
-              {...register('netPlusIva')}
-              variant="flushed"
-              placeholder="IVA"
-              type="number"
-              defaultValue={importNet && importNet * 1.21}
-            />
-            {fields.map((field, index) => {
-              return (
-                <Stack key={field.id}>
-                  <Flex alignContent justifyContent>
-                    <Center>
-                      <Text fontSize="xl">{`Extra ${index + 1}`}</Text>
-                    </Center>
-                    <Spacer />
-                    <Center>
-                      <Button
-                        color="red.500"
-                        fontSize="md"
-                        onClick={() => remove(index)}
-                      >
-                        Eliminar extra
-                      </Button>
-                    </Center>
-                  </Flex>
-                  <VStack>
-                    <Input
-                      {...register(`extras.${index}.concepto`)}
-                      variant="flushed"
-                      placeholder="Concepto"
-                    />
-                    <Input
-                      {...register(`extras.${index}.amount`)}
-                      variant="flushed"
-                      placeholder="Monto"
-                      type="number"
-                    />
-                  </VStack>
-                </Stack>
-              );
-            })}
-            <Button
-              color="green.500"
-              fontSize="md"
-              onClick={() => append({ firstName: 'bill', lastName: 'luo' })}
-            >
-              Agregar extra
-            </Button>
+            {isTypeSelected === 'A' && (
+              <>
+                <Input
+                  {...register('net')}
+                  variant="flushed"
+                  placeholder="Importe Neto"
+                  type="number"
+                />
+                <Input
+                  {...register('netPlusIva')}
+                  variant="flushed"
+                  placeholder="IVA"
+                  type="number"
+                  defaultValue={importNet && importNet * 1.21}
+                />
+                <Input
+                  {...register('total')}
+                  variant="flushed"
+                  placeholder="Total"
+                  type="number"
+                />
+              </>
+            )}
           </>
         )}
       </Stack>
@@ -197,10 +184,10 @@ const PurchaseForm = ({ renderData, data }) => {
 
   function handleProviders() {
     useEffect(async () => {
-      const providers = await providerRequest.getRecords();
-      setProviders(providers);
+      const providers = await client.getRecords();
+      setClients(providers);
     }, []);
   }
 };
 
-export default PurchaseForm;
+export default Sales;

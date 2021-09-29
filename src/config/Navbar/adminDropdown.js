@@ -11,8 +11,8 @@ const adminDropdown = [
     label: 'Ventas',
     link: '/sales',
     child: [
-      { sublabel: 'Ingreso Factura', sublink: '' },
-      { sublabel: 'Ingreso Remito', sublink: '' },
+      { sublabel: 'Ingreso Factura', sublink: '/invoices' },
+      { sublabel: 'Ingreso Remito', sublink: '/remitos' },
       { sublabel: 'Remitos por Cliente', sublink: '' },
       { sublabel: 'Facturas por Cliente', sublink: '' },
     ],
