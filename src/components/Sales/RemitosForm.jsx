@@ -32,7 +32,7 @@ const RemitosForm = ({ renderData, data }) => {
   const [providers, setProviders] = useState([]);
   const [products, setProducts] = useState([]);
   const [productsSelected, setProductsSelected] = useState([]);
-  const [productsParsedToSend, setProductsParsedToSend] = useState([]);
+  const [remitosWithPrice, setRemitosWithPrice] = useState([]);
 
   const { register, handleSubmit, control, watch } = useForm({
     defaultValues: {
@@ -45,7 +45,8 @@ const RemitosForm = ({ renderData, data }) => {
     name: 'remitos',
   });
 
-  const isClientSelected = watch('client_id');
+  const idClientSelected = watch('client_id');
+  const allRemitos = watch('remitos');
 
   const _id = data?._id;
 
@@ -58,44 +59,48 @@ const RemitosForm = ({ renderData, data }) => {
     let uniqueProducts = [...new Set(parsedProducts)];
     setProductsSelected(uniqueProducts);
     onOpen();
-
-    // await remitosRequest.postRecord(parsedData);
-    // renderData.setRender(!renderData.render);
   };
 
-  useEffect(() => {
-    console.log(productsParsedToSend);
-  }, [productsParsedToSend]);
+  const handleSubmitRemitos = async () => {
+    try {
+      const result = await Promise.all(
+        remitosWithPrice?.map(async (remito) => {
+          await remitosRequest.postRecord({
+            ...remito,
+            client_id: idClientSelected,
+            status: 'pending',
+          });
+        }),
+      );
+      renderData.setRender(!renderData.render);
+      onClose();
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addPriceToRemitos = (remitos, IdremitoToAddPrice, price) =>
+    remitos?.map((remito) => {
+      if (remito.product_id === IdremitoToAddPrice) {
+        return {
+          ...remito,
+          price,
+        };
+      } else {
+        return {
+          ...remito,
+        };
+      }
+    });
 
   const handleProductsValues = (data, productId) => {
     const price = data.target.value;
-    const todosLosRemitos = watch('remitos');
-    return setProductsParsedToSend(
-      productsParsedToSend.length > 0
-        ? productsParsedToSend.map((remito) => {
-            if (remito.product_id === productId) {
-              return {
-                ...remito,
-                price,
-              };
-            } else {
-              return {
-                ...remito,
-              };
-            }
-          })
-        : todosLosRemitos.map((remito) => {
-            if (remito.product_id === productId) {
-              return {
-                ...remito,
-                price,
-              };
-            } else {
-              return {
-                ...remito,
-              };
-            }
-          }),
+    const allRemitos = watch('remitos');
+    return setRemitosWithPrice(
+      remitosWithPrice.length > 0
+        ? addPriceToRemitos(remitosWithPrice, productId, price)
+        : addPriceToRemitos(allRemitos, productId, price),
     );
   };
 
@@ -115,8 +120,16 @@ const RemitosForm = ({ renderData, data }) => {
               </option>
             ))}
           </Select>
-          {isClientSelected && (
+          {idClientSelected && (
             <>
+              <Button
+                spacing={10}
+                color="green.500"
+                fontSize="md"
+                onClick={() => append({ type: allRemitos[0]?.type })}
+              >
+                Agregar remito
+              </Button>
               {fields.map((field, index) => {
                 const typeRemito = watch(`remitos.${index}.type`, false);
                 return (
@@ -143,9 +156,24 @@ const RemitosForm = ({ renderData, data }) => {
                         placeholder="Tipo de remito"
                         required
                       >
-                        <option value={'28m3'}>Venta x 28m3</option>
-                        <option value={'ton'}>Venta x TN</option>
-                        <option value={'6m3'}>Venta x 6m3</option>
+                        <option
+                          value={'batea'}
+                          selected={allRemitos[index].type === 'batea'}
+                        >
+                          Venta x 28m3
+                        </option>
+                        <option
+                          value={'ton'}
+                          selected={allRemitos[index].type === 'ton'}
+                        >
+                          Venta x TN
+                        </option>
+                        <option
+                          value={'chasis'}
+                          selected={allRemitos[index].type === 'chasis'}
+                        >
+                          Venta x 6m3
+                        </option>
                       </Select>
                       <Controller
                         control={control}
@@ -190,14 +218,11 @@ const RemitosForm = ({ renderData, data }) => {
                   </Stack>
                 );
               })}
-              <Button color="green.500" fontSize="md" onClick={() => append()}>
-                Agregar remito
-              </Button>
             </>
           )}
         </Stack>
         <DrawerFooter>
-          {isClientSelected && (
+          {idClientSelected && (
             <Button type="submit" colorScheme="blue">
               Crear
             </Button>
@@ -227,7 +252,7 @@ const RemitosForm = ({ renderData, data }) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
+            <Button colorScheme="blue" mr={3} onClick={handleSubmitRemitos}>
               Guardar
             </Button>
             <Button onClick={onClose}>Cancelar</Button>
@@ -253,7 +278,7 @@ const RemitosForm = ({ renderData, data }) => {
 
   function handleCleanProductsParsedWhenOpenModal() {
     useEffect(() => {
-      isOpen && setProductsParsedToSend([]);
+      isOpen && setRemitosWithPrice([]);
     }, [isOpen]);
   }
 };

@@ -32,10 +32,26 @@ const deleteRecord = async (_id) => {
   return response.data;
 };
 
+const markAsProcessed = async (data) => {
+  const response = await axiosRequest.put(`${routeName}/markAsProcessed`, [
+    ...data.filter(Boolean),
+  ]);
+  console.log(`${routeName}/markAsProcessed updated`, response.data);
+  return response.data;
+};
+
+const downloadPDF = async (data) => {
+  const response = await axiosRequest.post(`${routeName}/getPdf`, data);
+  console.log(`${routeName}/getPdf updated`, response.data);
+  return response.data;
+};
+
 export default {
   getRecord,
   getRecords,
   postRecord,
   updateRecord,
   deleteRecord,
+  markAsProcessed,
+  downloadPDF,
 };

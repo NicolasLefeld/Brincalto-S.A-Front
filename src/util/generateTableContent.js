@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import {
   Thead,
+  Stack,
   Tbody,
   Tr,
   Th,
@@ -12,13 +13,16 @@ import {
   Center,
   Text,
   Flex,
+  Checkbox,
   Spacer,
 } from '@chakra-ui/react';
 import { DeleteIcon, EditIcon, InfoIcon } from '@chakra-ui/icons';
 import Popover from '../components/Popover';
 import Drawer from '../components/Drawer';
 import getDescendantProp from '../util/getDescendantProp';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import remitosRequests from '../api/remitosRequests';
+import { useForm } from 'react-hook-form';
 
 const generateTableContent = (
   columns,
@@ -29,22 +33,69 @@ const generateTableContent = (
 ) => {
   const location = useLocation();
   const { pathname } = location;
-  const keys = columns.map(({ key }) => key);
-  const thead = columns.map((column, index) => (
-    <Th key={uuidv4()}>
-      {columns.find((col) => col.position === index).displayName}
-    </Th>
-  ));
   const isSpare = pathname.includes('spare');
   const isOil = pathname.includes('oil');
+
+  const [selectedAllRemitos, setselectedAllRemitos] = useState(false);
+
+  const { register, handleSubmit, watch, setValue, reset } = useForm({
+    defaultValues: {
+      remitosToBeProcessed: [],
+    },
+  });
+  const remitosToBeProcessed = watch('remitosToBeProcessed');
+
+  const onSubmit = async () => {
+    await remitosRequests.markAsProcessed(remitosToBeProcessed);
+    reset({ remitosToBeProcessed: [] });
+    renderData.setRender(!renderData.render);
+  };
+
+  const handleAllRemitos = () => {
+    setselectedAllRemitos(!selectedAllRemitos);
+    return rows.map((row, index) => {
+      const IsStatusPending = row.status === 'pending';
+      if (IsStatusPending && !selectedAllRemitos) {
+        return setValue(`remitosToBeProcessed.${index}`, row._id);
+      }
+      return setValue(`remitosToBeProcessed.${index}`, false);
+    });
+  };
+
+  const keys = columns.map(({ key }) => key);
+
+  const thead = columns.map((column, index) => (
+    <Th key={uuidv4()}>
+      <Stack>
+        <Text>{columns.find((col) => col.position === index).displayName}</Text>
+      </Stack>
+      {column.displayName === 'Procesar' && (
+        <Stack>
+          <Checkbox onChange={handleAllRemitos} isChecked={selectedAllRemitos}>
+            Seleccionar Todos
+          </Checkbox>
+          <Button
+            type="submit"
+            fontSize="xs"
+            colorScheme="blue"
+            onClick={handleSubmit(onSubmit)}
+          >
+            Procesar remitos
+          </Button>
+        </Stack>
+      )}
+    </Th>
+  ));
+
   let tbody;
 
   if (Array.isArray(rows)) {
-    tbody = rows.map((row) => {
+    tbody = rows.map((row, index) => {
       return (
         <Tr key={uuidv4()}>
           {keys.map((key) => {
             const rowValue = getDescendantProp(row, key);
+
             if (key === 'action') {
               const isSpareOrOil = isSpare || isOil;
               const handleType = isSpare ? 'Repuesto' : 'Aceite';
@@ -113,21 +164,12 @@ const generateTableContent = (
                               ))}
                           </>
                         }
-                        // footer={
-                        //   <Button
-                        //     colorScheme="yellow"
-                        //     onClick={() => redirect(row._id)}
-                        //   >
-                        //     Cargar Movimiento
-                        //   </Button>
-                        // }
                       />
                     )}
-
-                    {row.assigned_products && (
+                    {row.assignedProducts && (
                       <Popover
                         message={
-                          row.assigned_products.length === 0
+                          row.assignedProducts.length === 0
                             ? 'No hay productos asignados'
                             : 'Productos asignados'
                         }
@@ -140,8 +182,8 @@ const generateTableContent = (
                         }
                         body={
                           <>
-                            {row.assigned_products.length !== 0 &&
-                              row.assigned_products.map((product, index) => (
+                            {row.assignedProducts.length !== 0 &&
+                              row.assignedProducts.map((product, index) => (
                                 <Flex key={uuidv4()}>
                                   <Center>
                                     <Text fontSize="4xl">{index + 1}</Text>
@@ -181,13 +223,34 @@ const generateTableContent = (
                 </Td>
               );
             }
+            if (key === 'forProcessing') {
+              const rowForProcessing = (
+                <Td key={uuidv4()}>
+                  <Stack>
+                    {row.status === 'processed' ? (
+                      <Text>Procesado / {row.statusId}</Text>
+                    ) : (
+                      <>
+                        <Checkbox
+                          id={row._id}
+                          value={row._id}
+                          {...register(`remitosToBeProcessed.${index}`)}
+                        >
+                          Seleccionar
+                        </Checkbox>
+                      </>
+                    )}
+                  </Stack>
+                </Td>
+              );
+              return rowForProcessing;
+            }
             if (key === 'liters') {
               return <Td>{`${row.availableLitters} de ${row.liters}`}</Td>;
             }
             if (key === 'costPerLitter') {
               return <Td>{`${row.costPerLitter} $`}</Td>;
             }
-
             if (key === 'extras') {
               const rowExtras = (
                 <Td key={uuidv4()}>
@@ -202,7 +265,6 @@ const generateTableContent = (
               );
               return rowExtras;
             }
-
             if (key === 'provider') {
               const rowProvider = (
                 <Td key={uuidv4()}>
@@ -211,16 +273,22 @@ const generateTableContent = (
               );
               return rowProvider;
             }
-
             if (key === 'client_id') {
               const rowClient = (
                 <Td key={uuidv4()}>
-                  <Text>{rowValue.name}</Text>
+                  <Text>{rowValue?.name}</Text>
                 </Td>
               );
               return rowClient;
             }
-
+            if (key === 'product_id') {
+              const rowProduct = (
+                <Td key={uuidv4()}>
+                  <Text>{rowValue?.map((val) => val.name)}</Text>
+                </Td>
+              );
+              return rowProduct;
+            }
             if (key === 'date') {
               const rowProvider = (
                 <Td key={uuidv4()}>

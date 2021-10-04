@@ -4,7 +4,7 @@ const adminDropdown = [
     link: '/purchases',
     child: [
       { sublabel: 'Ingreso compra', sublink: '/new' },
-      { sublabel: 'Consultar C/C Cliente', sublink: '/cc' },
+      { sublabel: 'Consultar C/C Proveedor', sublink: '/cc' },
     ],
   },
   {
@@ -13,8 +13,7 @@ const adminDropdown = [
     child: [
       { sublabel: 'Ingreso Factura', sublink: '/invoices' },
       { sublabel: 'Ingreso Remito', sublink: '/remitos' },
-      { sublabel: 'Remitos por Cliente', sublink: '' },
-      { sublabel: 'Facturas por Cliente', sublink: '' },
+      { sublabel: 'Consultar C/C Cliente', sublink: '/cc' },
     ],
   },
   {

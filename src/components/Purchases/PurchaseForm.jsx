@@ -17,7 +17,7 @@ import purchasesRequests from '../../api/purchasesRequests';
 import DatePicker from '../../components/DatePicker';
 
 const PurchaseForm = ({ renderData, data }) => {
-  const { register, handleSubmit, control, watch } = useForm({
+  const { register, handleSubmit, control, watch, setValue } = useForm({
     defaultValues: {
       extras: [],
     },
@@ -30,6 +30,8 @@ const PurchaseForm = ({ renderData, data }) => {
 
   const isProviderSelected = watch('provider_id');
   const importNet = watch('net');
+  const importNetPlusIva = watch('netPlusIva');
+  const extras = watch('extras');
 
   const [startDate, setStartDate] = useState(new Date());
   const [providers, setProviders] = useState([]);
@@ -37,6 +39,8 @@ const PurchaseForm = ({ renderData, data }) => {
   const _id = data?._id;
 
   handleProviders();
+  handleImportNetPlusIva();
+  handleTotal();
 
   if (_id) {
     const onSubmit = async (data) => {
@@ -139,7 +143,7 @@ const PurchaseForm = ({ renderData, data }) => {
               variant="flushed"
               placeholder="IVA"
               type="number"
-              defaultValue={importNet && importNet * 1.21}
+              step="any"
             />
             {fields.map((field, index) => {
               return (
@@ -175,11 +179,14 @@ const PurchaseForm = ({ renderData, data }) => {
                 </Stack>
               );
             })}
-            <Button
-              color="green.500"
-              fontSize="md"
-              onClick={() => append({ firstName: 'bill', lastName: 'luo' })}
-            >
+            <Input
+              {...register('total')}
+              variant="flushed"
+              placeholder="Total"
+              type="number"
+              step="any"
+            />
+            <Button color="green.500" fontSize="md" onClick={() => append()}>
               Agregar extra
             </Button>
           </>
@@ -200,6 +207,33 @@ const PurchaseForm = ({ renderData, data }) => {
       const providers = await providerRequest.getRecords();
       setProviders(providers);
     }, []);
+  }
+
+  function handleImportNetPlusIva() {
+    useEffect(() => {
+      if (importNet) {
+        setValue('netPlusIva', importNet * 0.21);
+      }
+    }, [importNet]);
+  }
+
+  function handleTotal() {
+    useEffect(() => {
+      console.log(extras, '------------');
+      let totalExtras = 0;
+      extras?.forEach((extra) => (totalExtras += parseFloat(extra.amount)));
+      console.log(totalExtras);
+      if (importNet || importNetPlusIva) {
+        setValue(
+          'total',
+          parseFloat(
+            parseFloat(importNet) +
+              parseFloat(importNetPlusIva) +
+              parseFloat(totalExtras),
+          ),
+        );
+      }
+    }, [importNet, importNetPlusIva, extras]);
   }
 };
 

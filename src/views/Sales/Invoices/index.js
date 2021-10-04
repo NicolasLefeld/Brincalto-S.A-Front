@@ -19,8 +19,7 @@ const Invoices = () => {
     { displayName: 'Imp. Neto', key: 'net', position: 4 },
     { displayName: 'Imp. IVA', key: 'netPlusIva', position: 5 },
     { displayName: 'Imp. Total', key: 'total', position: 6 },
-    { displayName: 'Extras', key: 'extras', position: 7 },
-    { displayName: 'Acción', key: 'action', position: 8 },
+    { displayName: 'Acción', key: 'action', position: 7 },
   ];
 
   useEffect(() => {

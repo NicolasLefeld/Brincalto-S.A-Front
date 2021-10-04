@@ -24,12 +24,11 @@ const Drawer = ({
   const btnRef = useRef();
 
   useEffect(() => {
-    console.log(defaultOpen);
     defaultOpen && onOpen();
   }, [defaultOpen]);
 
   const defaultTrigger = (
-    <Flex justifyContent="center">
+    <Flex justifyContent="left">
       <Stack>
         <Button
           ref={btnRef}

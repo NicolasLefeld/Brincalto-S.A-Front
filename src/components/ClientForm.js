@@ -15,7 +15,12 @@ import productsRequest from '../api/productsRequests';
 const ClientForm = ({ renderData, data }) => {
   const [products, setProducts] = useState([]);
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      sales: [],
+      products: [],
+    },
+  });
 
   const _id = data?._id;
 
@@ -23,11 +28,7 @@ const ClientForm = ({ renderData, data }) => {
 
   const handleCreate = () => {
     const onSubmit = async (data) => {
-      const parsedData = {
-        ...data,
-        sales: [],
-      };
-      await clientRequest.postRecord(parsedData);
+      await clientRequest.postRecord(data);
       renderData.setRender(!renderData.render);
     };
 
@@ -39,7 +40,7 @@ const ClientForm = ({ renderData, data }) => {
             <Checkbox
               id={product._id}
               value={product._id}
-              {...register(`assigned_products`)}
+              {...register(`assignedProducts`)}
             >
               {product.name}
             </Checkbox>
@@ -91,7 +92,7 @@ const ClientForm = ({ renderData, data }) => {
       renderData.setRender(!renderData.render);
     };
 
-    const assignedProducts = data?.assigned_products.map(
+    const assignedProducts = data?.assignedProducts.map(
       (product) => product._id,
     );
 
@@ -105,7 +106,7 @@ const ClientForm = ({ renderData, data }) => {
                 <Checkbox
                   id={product._id}
                   value={product._id}
-                  {...register(`assigned_products`)}
+                  {...register(`assignedProducts`)}
                 >
                   {product.name}
                 </Checkbox>

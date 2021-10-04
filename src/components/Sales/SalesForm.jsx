@@ -14,15 +14,12 @@ import salesRequests from '../../api/invoicesRequests';
 import DatePicker from '../DatePicker';
 
 const Sales = ({ renderData, data }) => {
-  const { register, handleSubmit, watch } = useForm({
-    defaultValues: {
-      extras: [],
-    },
-  });
+  const { register, handleSubmit, watch, setValue } = useForm();
 
-  const isProviderSelected = watch('client_id');
+  const isClientSelected = watch('client_id');
   const isTypeSelected = watch('type');
   const importNet = watch('net');
+  const importNetPlusIva = watch('netPlusIva');
 
   const [startDate, setStartDate] = useState(new Date());
   const [clients, setClients] = useState([]);
@@ -30,47 +27,92 @@ const Sales = ({ renderData, data }) => {
   const _id = data?._id;
 
   handleProviders();
+  handleImportNetPlusIva();
+  handleTotal();
 
   if (_id) {
     const onSubmit = async (data) => {
       await salesRequests.updateRecord(_id, data);
       renderData.setRender(!renderData.render);
     };
-
+    console.log(data);
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack>
-          <Input
-            {...register('name')}
-            defaultValue={data.name}
+          <Text fontSize="xl">Clientes</Text>
+          <Select
+            {...register('client_id')}
             variant="flushed"
-            placeholder="Nombre"
+            placeholder={data.client_id}
+          >
+            {clients?.map((client) => (
+              <option value={client._id}>{client.name}</option>
+            ))}
+          </Select>
+          <Text fontSize="xl">Tipo factura</Text>
+          <Select
+            {...register('type')}
+            variant="flushed"
+            defaultValue={data.type}
+          >
+            <option value="A">Factura A</option>
+            <option value="B">Factura B</option>
+          </Select>
+          <Text fontSize="xl">Estado</Text>
+          <Select
+            {...register('status')}
+            variant="flushed"
+            placeholder={data.status === 'pending' ? 'Pendiente' : 'Procesada'}
+          >
+            <option value="pending">Pendiente</option>
+            <option value="processed">Procesada</option>
+          </Select>
+          <Text fontSize="xl">Datos Factura</Text>
+          <Text>Fecha</Text>
+          <DatePicker
+            selected={new Date(data.date)}
+            onChange={(date) => setStartDate(date)}
           />
           <Input
-            {...register('comment')}
-            defaultValue={data.comment}
+            {...register('invoice_id')}
             variant="flushed"
-            placeholder="Comentario"
+            placeholder="N° Factura"
+            defaultValue={data.invoice_id}
           />
           <Input
-            {...register('cuit')}
-            defaultValue={data.cuit}
+            {...register('concept')}
             variant="flushed"
-            placeholder="CUIT"
+            placeholder="Concepto"
+            defaultValue={data.concept}
           />
           <Input
-            {...register('address')}
-            defaultValue={data.address}
+            {...register('net')}
             variant="flushed"
-            placeholder="Dirección"
-          />
-          <Input
-            {...register('checkingAccount')}
-            defaultValue={data.checkingAccount}
-            variant="flushed"
+            placeholder="Importe Neto"
             type="number"
-            placeholder="Cuenta corriente"
+            defaultValue={data.net}
+            step="any"
           />
+          {isTypeSelected === 'A' && (
+            <>
+              <Input
+                {...register('netPlusIva')}
+                variant="flushed"
+                placeholder="IVA"
+                type="number"
+                defaultValue={data.netPlusIva}
+                step="any"
+              />
+              <Input
+                {...register('total')}
+                variant="flushed"
+                placeholder="Total"
+                type="number"
+                defaultValue={data.total}
+                step="any"
+              />
+            </>
+          )}
         </Stack>
         <DrawerFooter>
           <Button type="submit" colorScheme="blue">
@@ -103,7 +145,7 @@ const Sales = ({ renderData, data }) => {
             <option value={client._id}>{client.name}</option>
           ))}
         </Select>
-        {isProviderSelected && (
+        {isClientSelected && (
           <>
             <Text fontSize="xl">Tipo factura</Text>
             <Select
@@ -122,7 +164,7 @@ const Sales = ({ renderData, data }) => {
               placeholder="Seleccione el estado"
             >
               <option value="pending">Pendiente</option>
-              <option value="paid">Procesada</option>
+              <option value="processed">Procesada</option>
             </Select>
             <Text fontSize="xl">Datos Factura</Text>
             <Text>Fecha</Text>
@@ -141,25 +183,18 @@ const Sales = ({ renderData, data }) => {
               placeholder="Concepto"
             />
             <Input
-              {...register('amount')}
+              {...register('net')}
               variant="flushed"
-              placeholder="Importe"
+              placeholder="Importe Neto"
               type="number"
             />
             {isTypeSelected === 'A' && (
               <>
                 <Input
-                  {...register('net')}
-                  variant="flushed"
-                  placeholder="Importe Neto"
-                  type="number"
-                />
-                <Input
                   {...register('netPlusIva')}
                   variant="flushed"
                   placeholder="IVA"
                   type="number"
-                  defaultValue={importNet && importNet * 1.21}
                 />
                 <Input
                   {...register('total')}
@@ -173,7 +208,7 @@ const Sales = ({ renderData, data }) => {
         )}
       </Stack>
       <DrawerFooter>
-        {isProviderSelected && (
+        {isClientSelected && (
           <Button type="submit" colorScheme="blue">
             Crear
           </Button>
@@ -187,6 +222,27 @@ const Sales = ({ renderData, data }) => {
       const providers = await client.getRecords();
       setClients(providers);
     }, []);
+  }
+
+  function handleImportNetPlusIva() {
+    useEffect(() => {
+      if (isTypeSelected === 'A' && importNet) {
+        setValue('netPlusIva', importNet * 0.21);
+      }
+    }, [importNet]);
+  }
+
+  function handleTotal() {
+    useEffect(() => {
+      if (isTypeSelected === 'A') {
+        if (importNet || importNetPlusIva) {
+          setValue(
+            'total',
+            parseFloat(parseFloat(importNet) + parseFloat(importNetPlusIva)),
+          );
+        }
+      }
+    }, [importNet, importNetPlusIva]);
   }
 };
 

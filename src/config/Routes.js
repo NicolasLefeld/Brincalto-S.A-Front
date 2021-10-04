@@ -11,6 +11,8 @@ import User from '../views/User';
 import Provider from '../views/Provider';
 import Products from '../views/Products';
 import Purchases from '../views/Purchases';
+import PurchasesByProvider from '../views/PurchasesByProvider';
+import SalesByClient from '../views/SalesByClient';
 import Invoices from '../views/Sales/Invoices';
 import Remitos from '../views/Sales/Remitos';
 
@@ -27,8 +29,14 @@ const Routes = () => {
       <PrivateRoute path="/provider" exact component={Provider} />
       <PrivateRoute path="/products" exact component={Products} />
       <PrivateRoute path="/purchases/new" exact component={Purchases} />
+      <PrivateRoute
+        path="/purchases/cc"
+        exact
+        component={PurchasesByProvider}
+      />
       <PrivateRoute path="/sales/invoices" exact component={Invoices} />
       <PrivateRoute path="/sales/remitos" exact component={Remitos} />
+      <PrivateRoute path="/sales/cc" exact component={SalesByClient} />
       <Redirect to="/" />
     </Switch>
   );
