@@ -41,7 +41,14 @@ const markAsProcessed = async (data) => {
 };
 
 const downloadPDF = async (data) => {
-  const response = await axiosRequest.post(`${routeName}/getPdf`, data);
+  const response = await axiosRequest.post(`${routeName}/getPdf`, data, {
+    responseType: 'arraybuffer',
+    encoding: null,
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/pdf',
+    },
+  });
   console.log(`${routeName}/getPdf updated`, response.data);
   return response.data;
 };

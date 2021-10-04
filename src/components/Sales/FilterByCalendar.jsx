@@ -14,13 +14,11 @@ const DatePickerWrapperStyles = createGlobalStyle`
 .Selectable .DayPicker-Day--start {
   border-top-left-radius: 50% !important;
   border-bottom-left-radius: 50% !important;
-  background-color: #2DCE89 !important;
   color: #f0f8ff;
 }
 .Selectable .DayPicker-Day--end {
   border-top-right-radius: 50% !important;
   border-bottom-right-radius: 50% !important;
-  background-color: #2DCE89 !important;
   color: #f0f8ff;
 }
 `;

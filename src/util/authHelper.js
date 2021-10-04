@@ -18,6 +18,12 @@ export const isLogin = () => {
 };
 
 export const isAdmin = () => {
-  const { role } = jwtDecode(localStorage.getItem(TOKEN_KEY));
-  return role === 'admin';
+  try {
+    // valid token format
+    const { role } = jwtDecode(localStorage.getItem(TOKEN_KEY));
+    return role === 'admin';
+  } catch (error) {
+    // invalid token format
+    return logout();
+  }
 };

@@ -11,8 +11,6 @@ import { useForm } from 'react-hook-form';
 import { HStack, Text, Stack } from '@chakra-ui/layout';
 import FilterByCalendar from '../../../components/Sales/FilterByCalendar';
 import { Button } from '@chakra-ui/button';
-import { jsPDF } from 'jspdf';
-import parse from 'html-react-parser';
 
 const Remitos = () => {
   const { register, watch } = useForm();
@@ -20,7 +18,6 @@ const Remitos = () => {
   const clientSelected = watch('clientSelected');
   const stateSelected = watch('stateSelected');
 
-  const [remitosPDF, setRemitosPDF] = useState(false);
   const [to, setTo] = useState(new Date());
   const [from, setFrom] = useState(new Date());
   const [clients, setClients] = useState([]);
@@ -68,38 +65,30 @@ const Remitos = () => {
     setTo(newRange.to);
   };
 
-  const downloadAllRemitos = async () => {
-    const doc = new jsPDF({
-      orientation: 'l',
-      unit: 'mm',
-      format: 'a4',
-      putOnlyUsedFonts: true,
-    });
-
+  const downloadPDF = async () => {
     const idAllSales = remitos?.map((sale) => sale._id);
-    const html = await request.downloadPDF(idAllSales);
-
-    console.log(html);
-
-    // var blobPDF = new Blob([html], { type: 'text/html' });
-    // var blobUrl = URL.createObjectURL(blobPDF);
-    // window.open(blobUrl);
-    // const file = new Blob([html], { type: 'text/html' });
-    // const fileURL = URL.createObjectURL(file);
-    // window.open(fileURL);
-    // console.log(doc);
-    setRemitosPDF(<div id="remitoPDF">{parse(html)}</div>);
-
-    doc.html(document.getElementById('page_1'), {
-      callback: function (doc) {
-        doc.save(`Remitos-desde-${from.getMonth()}-hasta-${to.getMonth()}.pdf`);
-      },
-    });
+    const pdf = await request.downloadPDF(idAllSales);
+    var pdfBlob = new Blob([pdf], { type: 'application/pdf' });
+    const blobUrl = window.URL.createObjectURL(pdfBlob);
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.setAttribute(
+      'download',
+      `Remitos-desde-${from.getMonth()}-hasta-${to.getMonth()}.pdf`,
+    );
+    link.click();
+    link.remove();
+    return URL.revokeObjectURL(blobUrl);
   };
 
   return (
     <div>
-      <Stack p={5} m={3} border={'1px solid black'} borderRadius={5}>
+      <Stack
+        p={5}
+        m={3}
+        border={'1px solid rgba(66,66,66,0.1)'}
+        borderRadius={5}
+      >
         <Text fontSize="xl">Filtros de remitos</Text>
 
         <HStack py={3}>
@@ -123,21 +112,22 @@ const Remitos = () => {
             <option value="processed">Procesada</option>
           </Select>
         </HStack>
-        <Text fontSize="xl">Periodo de remitos</Text>
-        <FilterByCalendar
-          from={from}
-          to={to}
-          handleDayClick={handleNewRangeFilters}
-        />
-        <Button
-          spacing={10}
-          color="green.500"
-          fontSize="md"
-          onClick={downloadAllRemitos}
-        >
-          Imprimir periodio seleccionado
-        </Button>
-        {remitosPDF}
+        <Stack>
+          <Text fontSize="xl">Periodo de remitos</Text>
+          <FilterByCalendar
+            from={from}
+            to={to}
+            handleDayClick={handleNewRangeFilters}
+          />
+          <Button
+            spacing={10}
+            color="green.500"
+            fontSize="md"
+            onClick={downloadPDF}
+          >
+            Imprimir Periodio
+          </Button>
+        </Stack>
       </Stack>
       <Drawer activationMessage="Cargar remitos" defaultOpen size="xl">
         <RemitosForm renderData={renderData} />
