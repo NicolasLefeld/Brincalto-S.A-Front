@@ -80,6 +80,7 @@ const PurchaseForm = ({ renderData, data }) => {
             defaultValue={data.checkingAccount}
             variant="flushed"
             type="number"
+            step="any"
             placeholder="Cuenta corriente"
           />
         </Stack>
@@ -137,12 +138,14 @@ const PurchaseForm = ({ renderData, data }) => {
               variant="flushed"
               placeholder="Importe Neto"
               type="number"
+              step="any"
             />
             <Input
               {...register('netPlusIva')}
               variant="flushed"
               placeholder="IVA"
               type="number"
+              step="any"
               step="any"
             />
             {fields.map((field, index) => {
@@ -174,6 +177,7 @@ const PurchaseForm = ({ renderData, data }) => {
                       variant="flushed"
                       placeholder="Monto"
                       type="number"
+                      step="any"
                     />
                   </VStack>
                 </Stack>
@@ -184,6 +188,7 @@ const PurchaseForm = ({ renderData, data }) => {
               variant="flushed"
               placeholder="Total"
               type="number"
+              step="any"
               step="any"
             />
             <Button color="green.500" fontSize="md" onClick={() => append()}>

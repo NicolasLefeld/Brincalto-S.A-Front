@@ -190,7 +190,7 @@ const generateTableContent = (
                                   </Center>
                                   <Spacer />
                                   <Center>
-                                    <Text fontSize="md">{product.name}</Text>
+                                    <Text fontSize="md">{product?.name}</Text>
                                   </Center>
                                 </Flex>
                               ))}
@@ -284,7 +284,9 @@ const generateTableContent = (
             if (key === 'product_id') {
               const rowProduct = (
                 <Td key={uuidv4()}>
-                  <Text>{rowValue?.map((val) => val.name)}</Text>
+                  <Text>
+                    {rowValue.lenght > 0 && rowValue?.map((val) => val?.name)}
+                  </Text>
                 </Td>
               );
               return rowProduct;

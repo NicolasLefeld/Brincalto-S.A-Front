@@ -15,12 +15,15 @@ import productsRequest from '../api/productsRequests';
 const ClientForm = ({ renderData, data }) => {
   const [products, setProducts] = useState([]);
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, watch } = useForm({
     defaultValues: {
       sales: [],
       products: [],
+      assignedProducts: [],
     },
   });
+  const assignedProducts = watch('assigned_products');
+  console.log(assignedProducts);
 
   const _id = data?._id;
 
@@ -40,7 +43,7 @@ const ClientForm = ({ renderData, data }) => {
             <Checkbox
               id={product._id}
               value={product._id}
-              {...register(`assignedProducts`)}
+              {...register(`assigned_products`)}
             >
               {product.name}
             </Checkbox>
@@ -58,6 +61,7 @@ const ClientForm = ({ renderData, data }) => {
             {...register('cuit')}
             variant="flushed"
             type="number"
+            step="any"
             placeholder="CUIT"
           />
           <Input
@@ -74,6 +78,7 @@ const ClientForm = ({ renderData, data }) => {
             {...register('checkingAccount')}
             variant="flushed"
             type="number"
+            step="any"
             placeholder="C/C Cuenta corriente"
           />
         </Stack>
@@ -106,7 +111,7 @@ const ClientForm = ({ renderData, data }) => {
                 <Checkbox
                   id={product._id}
                   value={product._id}
-                  {...register(`assignedProducts`)}
+                  {...register(`assigned_products`)}
                 >
                   {product.name}
                 </Checkbox>
@@ -148,6 +153,7 @@ const ClientForm = ({ renderData, data }) => {
             defaultValue={data.checkingAccount}
             variant="flushed"
             type="number"
+            step="any"
             placeholder="Cuenta corriente"
           />
         </Stack>

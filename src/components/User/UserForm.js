@@ -24,7 +24,6 @@ const UserForm = ({ renderData, data }) => {
           <Input
             {...register('password')}
             variant="flushed"
-            type="number"
             placeholder="Contraseña"
             defaultValue="1234"
             value="1234"

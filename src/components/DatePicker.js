@@ -37,11 +37,14 @@ const DatePickerWrapperStyles = createGlobalStyle`
     }
 `;
 
+const FORMAT = 'dd/MM/yyyy';
+
 const CustomDatePicker = ({ selected, onChange, defaultDate }) => (
   <>
     <DatePicker
       showTimeSelect
       timeFormat="HH:mm"
+      dateFormat={FORMAT}
       selected={selected}
       onChange={onChange}
       wrapperClassName="date_picker full-width"

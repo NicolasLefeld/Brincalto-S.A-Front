@@ -212,6 +212,7 @@ const RemitosForm = ({ renderData, data }) => {
                           variant="flushed"
                           placeholder="Toneladas"
                           type="number"
+                          step="any"
                         />
                       )}
                     </HStack>
@@ -323,6 +324,7 @@ export default RemitosForm;
 //           defaultValue={data.checkingAccount}
 //           variant="flushed"
 //           type="number"
+step = 'any';
 //           placeholder="Cuenta corriente"
 //         />
 //       </Stack>

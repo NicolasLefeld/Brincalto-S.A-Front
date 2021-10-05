@@ -44,6 +44,7 @@ const ProviderForm = ({ renderData, data }) => {
             defaultValue={data.checkingAccount}
             variant="flushed"
             type="number"
+            step="any"
             placeholder="Cuenta corriente"
           />
         </Stack>
@@ -69,6 +70,7 @@ const ProviderForm = ({ renderData, data }) => {
           {...register('checkingAccount')}
           variant="flushed"
           type="number"
+          step="any"
           placeholder="Cuenta corriente"
         />
         <Input

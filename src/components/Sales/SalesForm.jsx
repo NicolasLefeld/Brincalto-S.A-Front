@@ -187,6 +187,7 @@ const Sales = ({ renderData, data }) => {
               variant="flushed"
               placeholder="Importe Neto"
               type="number"
+              step="any"
             />
             {isTypeSelected === 'A' && (
               <>
@@ -195,12 +196,14 @@ const Sales = ({ renderData, data }) => {
                   variant="flushed"
                   placeholder="IVA"
                   type="number"
+                  step="any"
                 />
                 <Input
                   {...register('total')}
                   variant="flushed"
                   placeholder="Total"
                   type="number"
+                  step="any"
                 />
               </>
             )}

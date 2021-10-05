@@ -50,6 +50,7 @@ const WEEKDAYS_SHORT = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
 
 export default function FilterByCalendar({ from, to, handleDayClick }) {
   const modifiers = { start: from, end: to };
+
   return (
     <>
       <DayPicker

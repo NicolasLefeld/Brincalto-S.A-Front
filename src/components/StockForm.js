@@ -57,6 +57,7 @@ const StockForm = ({ renderData, data, type }) => {
                   {...register('quantity')}
                   variant="flushed"
                   type="number"
+                  step="any"
                   placeholder="Cantidad"
                   defaultValue={data.quantity}
                 />
@@ -73,6 +74,7 @@ const StockForm = ({ renderData, data, type }) => {
                   {...register('quantity')}
                   variant="flushed"
                   type="number"
+                  step="any"
                   placeholder="Cantidad"
                   defaultValue={data.quantity}
                 />
@@ -104,6 +106,7 @@ const StockForm = ({ renderData, data, type }) => {
             {...register('quantity')}
             variant="flushed"
             type="number"
+            step="any"
             placeholder="Cantidad"
           />
         </Stack>
@@ -139,6 +142,7 @@ const StockForm = ({ renderData, data, type }) => {
                   {...register('littersTaken')}
                   variant="flushed"
                   type="number"
+                  step="any"
                   placeholder="Litros tomados"
                 />
               </>
@@ -149,12 +153,14 @@ const StockForm = ({ renderData, data, type }) => {
                   variant="flushed"
                   placeholder="Litros Iniciales"
                   type="number"
+                  step="any"
                   defaultValue={data.liters}
                 />
                 <Input
                   {...register('availableLitters')}
                   variant="flushed"
                   type="number"
+                  step="any"
                   placeholder="Litros Disponibles"
                   defaultValue={data.availableLitters}
                 />
@@ -162,6 +168,7 @@ const StockForm = ({ renderData, data, type }) => {
                   {...register('costPerLitter')}
                   variant="flushed"
                   type="number"
+                  step="any"
                   placeholder="Costo por Litro"
                   defaultValue={data.costPerLitter}
                 />
@@ -189,17 +196,20 @@ const StockForm = ({ renderData, data, type }) => {
             variant="flushed"
             placeholder="Litros Iniciales"
             type="number"
+            step="any"
           />
           <Input
             {...register('availableLitters')}
             variant="flushed"
             placeholder="Litros Disponibles"
             type="number"
+            step="any"
           />
           <Input
             {...register('costPerLitter')}
             variant="flushed"
             type="number"
+            step="any"
             placeholder="Costo por Litro"
           />
         </Stack>
