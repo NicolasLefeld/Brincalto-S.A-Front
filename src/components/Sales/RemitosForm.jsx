@@ -324,7 +324,6 @@ export default RemitosForm;
 //           defaultValue={data.checkingAccount}
 //           variant="flushed"
 //           type="number"
-step = 'any';
 //           placeholder="Cuenta corriente"
 //         />
 //       </Stack>
