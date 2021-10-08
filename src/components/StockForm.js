@@ -21,10 +21,11 @@ const StockForm = ({ renderData, data, type }) => {
   const updateStock = async (data) => {
     if (data?.isMovement) {
       await request.updateRecordWithMovement(_id, data, type);
+      renderData.setRender(!renderData.render);
     } else {
       await request.updateRecord(_id, data, type);
+      renderData.setRender(!renderData.render);
     }
-    renderData.setRender(!renderData.render);
   };
 
   const IsAMovement = watch('isMovement', true);
@@ -35,18 +36,18 @@ const StockForm = ({ renderData, data, type }) => {
       return (
         <form onSubmit={handleSubmit(updateStock)}>
           <Stack>
-            <Input
-              {...register('product')}
-              variant="flushed"
-              placeholder="Producto"
-              defaultValue={data.product}
-              isDisabled={IsAMovement}
-            />
             <Checkbox {...register('isMovement')} defaultIsChecked>
               ¿Es un movimiento?
             </Checkbox>
             {IsAMovement ? (
               <>
+                <Input
+                  {...register('product')}
+                  variant="flushed"
+                  placeholder="Producto"
+                  defaultValue={data.product}
+                  isDisabled={IsAMovement}
+                />
                 <Input
                   {...register('comment')}
                   variant="flushed"
@@ -64,6 +65,13 @@ const StockForm = ({ renderData, data, type }) => {
               </>
             ) : (
               <>
+                <Input
+                  {...register('product')}
+                  variant="flushed"
+                  placeholder="Producto"
+                  defaultValue={data.product}
+                  isDisabled={IsAMovement}
+                />
                 <Input
                   {...register('comment')}
                   variant="flushed"

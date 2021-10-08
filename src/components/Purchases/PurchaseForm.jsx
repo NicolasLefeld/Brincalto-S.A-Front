@@ -20,6 +20,7 @@ const PurchaseForm = ({ renderData, data }) => {
   const { register, handleSubmit, control, watch, setValue } = useForm({
     defaultValues: {
       extras: [],
+      status: 'pending',
     },
   });
 
@@ -117,6 +118,13 @@ const PurchaseForm = ({ renderData, data }) => {
         </Select>
         {isProviderSelected && (
           <>
+            <Text fontSize="xl">Estado</Text>
+            <Select {...register('status')} variant="flushed">
+              <option value="pending" selected>
+                Pendiente
+              </option>
+              <option value="paid">Pagada</option>
+            </Select>
             <Text fontSize="xl">Datos Factura</Text>
             <Text>Fecha</Text>
             <DatePicker
@@ -235,7 +243,7 @@ const PurchaseForm = ({ renderData, data }) => {
             parseFloat(importNet) +
               parseFloat(importNetPlusIva) +
               parseFloat(totalExtras),
-          ),
+          ).toFixed(2),
         );
       }
     }, [importNet, importNetPlusIva, extras]);

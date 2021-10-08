@@ -26,6 +26,7 @@ import clientRequest from '../../api/clientRequests';
 import productRequest from '../../api/productsRequests';
 import DatePicker from '../../components/DatePicker';
 import remitosRequest from '../../api/remitosRequests';
+import { DeleteIcon } from '@chakra-ui/icons';
 
 const RemitosForm = ({ renderData, data }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -122,33 +123,10 @@ const RemitosForm = ({ renderData, data }) => {
           </Select>
           {idClientSelected && (
             <>
-              <Button
-                spacing={10}
-                color="green.500"
-                fontSize="md"
-                onClick={() => append({ type: allRemitos[0]?.type })}
-              >
-                Agregar remito
-              </Button>
               {fields.map((field, index) => {
                 const typeRemito = watch(`remitos.${index}.type`, false);
                 return (
                   <Stack key={field.id}>
-                    <Flex alignContent justifyContent>
-                      <Center>
-                        <Text fontSize="xl">{`Remito ${index + 1}`}</Text>
-                      </Center>
-                      <Spacer />
-                      <Center>
-                        <Button
-                          color="red.500"
-                          fontSize="md"
-                          onClick={() => remove(index)}
-                        >
-                          Eliminar remito
-                        </Button>
-                      </Center>
-                    </Flex>
                     <HStack>
                       <Select
                         {...register(`remitos.${index}.type`)}
@@ -215,10 +193,26 @@ const RemitosForm = ({ renderData, data }) => {
                           step="any"
                         />
                       )}
+                      <Center>
+                        <Button
+                          color="red.500"
+                          fontSize="md"
+                          leftIcon={<DeleteIcon />}
+                          onClick={() => remove(index)}
+                        ></Button>
+                      </Center>
                     </HStack>
                   </Stack>
                 );
               })}
+              <Button
+                spacing={10}
+                color="green.500"
+                fontSize="md"
+                onClick={() => append({ type: allRemitos[0]?.type })}
+              >
+                Agregar remito
+              </Button>
             </>
           )}
         </Stack>

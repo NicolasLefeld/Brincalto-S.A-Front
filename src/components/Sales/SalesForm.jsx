@@ -14,7 +14,11 @@ import salesRequests from '../../api/invoicesRequests';
 import DatePicker from '../DatePicker';
 
 const Sales = ({ renderData, data }) => {
-  const { register, handleSubmit, watch, setValue } = useForm();
+  const { register, handleSubmit, watch, setValue } = useForm({
+    defaultValues: {
+      status: 'pending',
+    },
+  });
 
   const isClientSelected = watch('client_id');
   const isTypeSelected = watch('type');
@@ -35,7 +39,6 @@ const Sales = ({ renderData, data }) => {
       await salesRequests.updateRecord(_id, data);
       renderData.setRender(!renderData.render);
     };
-    console.log(data);
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack>
@@ -59,13 +62,11 @@ const Sales = ({ renderData, data }) => {
             <option value="B">Factura B</option>
           </Select>
           <Text fontSize="xl">Estado</Text>
-          <Select
-            {...register('status')}
-            variant="flushed"
-            placeholder={data.status === 'pending' ? 'Pendiente' : 'Procesada'}
-          >
-            <option value="pending">Pendiente</option>
-            <option value="processed">Procesada</option>
+          <Select {...register('status')} variant="flushed">
+            <option value="pending" selected>
+              Pendiente
+            </option>
+            <option value="paid">Pagada</option>
           </Select>
           <Text fontSize="xl">Datos Factura</Text>
           <Text>Fecha</Text>
@@ -241,7 +242,9 @@ const Sales = ({ renderData, data }) => {
         if (importNet || importNetPlusIva) {
           setValue(
             'total',
-            parseFloat(parseFloat(importNet) + parseFloat(importNetPlusIva)),
+            parseFloat(
+              parseFloat(importNet) + parseFloat(importNetPlusIva),
+            ).toFixed(2),
           );
         }
       }
