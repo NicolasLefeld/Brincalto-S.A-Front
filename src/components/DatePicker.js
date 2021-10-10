@@ -1,7 +1,7 @@
-import React from 'react';
-import styled, { css, createGlobalStyle } from 'styled-components';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import React from "react";
+import { createGlobalStyle } from "styled-components";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const DatePickerWrapperStyles = createGlobalStyle`
     .date_picker.full-width {
@@ -37,13 +37,11 @@ const DatePickerWrapperStyles = createGlobalStyle`
     }
 `;
 
-const FORMAT = 'dd/MM/yyyy';
+const FORMAT = "dd/MM/yyyy";
 
 const CustomDatePicker = ({ selected, onChange, defaultDate }) => (
   <>
     <DatePicker
-      showTimeSelect
-      timeFormat="HH:mm"
       dateFormat={FORMAT}
       selected={selected}
       onChange={onChange}
