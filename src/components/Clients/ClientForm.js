@@ -6,11 +6,11 @@ import {
   Button,
   DrawerFooter,
   CheckboxGroup,
-} from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import clientRequest from '../api/clientRequests';
-import productsRequest from '../api/productsRequests';
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import clientRequest from "../../api/clientRequests";
+import productsRequest from "../../api/productsRequests";
 
 const ClientForm = ({ renderData, data }) => {
   const [products, setProducts] = useState([]);
@@ -22,7 +22,7 @@ const ClientForm = ({ renderData, data }) => {
       assignedProducts: [],
     },
   });
-  const assignedProducts = watch('assigned_products');
+  const assignedProducts = watch("assigned_products");
   console.log(assignedProducts);
 
   const _id = data?._id;
@@ -56,26 +56,26 @@ const ClientForm = ({ renderData, data }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack>
           {ProductsCheckList}
-          <Input {...register('name')} variant="flushed" placeholder="Nombre" />
+          <Input {...register("name")} variant="flushed" placeholder="Nombre" />
           <Input
-            {...register('cuit')}
+            {...register("cuit")}
             variant="flushed"
             type="number"
             step="any"
             placeholder="CUIT"
           />
           <Input
-            {...register('address')}
+            {...register("address")}
             variant="flushed"
             placeholder="Dirección"
           />
           <Input
-            {...register('contacto')}
+            {...register("contacto")}
             variant="flushed"
             placeholder="Contacto"
           />
           <Input
-            {...register('checkingAccount')}
+            {...register("checkingAccount")}
             variant="flushed"
             type="number"
             step="any"
@@ -119,37 +119,37 @@ const ClientForm = ({ renderData, data }) => {
             </CheckboxGroup>
           </Stack>
           <Input
-            {...register('name')}
+            {...register("name")}
             defaultValue={data.name}
             variant="flushed"
             placeholder="Nombre"
           />
           <Input
-            {...register('cuit')}
+            {...register("cuit")}
             defaultValue={data.cuit}
             variant="flushed"
             placeholder="CUIT"
           />
           <Input
-            {...register('address')}
+            {...register("address")}
             defaultValue={data.address}
             variant="flushed"
             placeholder="Dirección"
           />
           <Input
-            {...register('contact')}
+            {...register("contact")}
             defaultValue={data.contact}
             variant="flushed"
             placeholder="Contacto"
           />
           <Input
-            {...register('comment')}
+            {...register("comment")}
             defaultValue={data.comment}
             variant="flushed"
             placeholder="Comentario"
           />
           <Input
-            {...register('checkingAccount')}
+            {...register("checkingAccount")}
             defaultValue={data.checkingAccount}
             variant="flushed"
             type="number"

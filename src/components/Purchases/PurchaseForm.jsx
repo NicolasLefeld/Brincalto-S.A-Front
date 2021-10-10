@@ -9,30 +9,32 @@ import {
   Flex,
   VStack,
   Center,
-} from '@chakra-ui/react';
-import { useState, useEffect } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
-import providerRequest from '../../api/providerRequests';
-import purchasesRequests from '../../api/purchasesRequests';
-import DatePicker from '../../components/DatePicker';
+} from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
+import providerRequest from "../../api/providerRequests";
+import purchasesRequests from "../../api/purchasesRequests";
+import DatePicker from "../../components/DatePicker";
+import SelectProvider from "../Provider/SelectProvider";
 
 const PurchaseForm = ({ renderData, data }) => {
-  const { register, handleSubmit, control, watch, setValue } = useForm({
+  const form = useForm({
     defaultValues: {
       extras: [],
-      status: 'pending',
+      status: "pending",
     },
   });
+  const { register, handleSubmit, control, watch, setValue } = form;
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'extras',
+    name: "extras",
   });
 
-  const isProviderSelected = watch('provider_id');
-  const importNet = watch('net');
-  const importNetPlusIva = watch('netPlusIva');
-  const extras = watch('extras');
+  const isProviderSelected = watch("provider_id");
+  const importNet = watch("net");
+  const importNetPlusIva = watch("netPlusIva");
+  const extras = watch("extras");
 
   const [startDate, setStartDate] = useState(new Date());
   const [providers, setProviders] = useState([]);
@@ -53,31 +55,31 @@ const PurchaseForm = ({ renderData, data }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack>
           <Input
-            {...register('name')}
+            {...register("name")}
             defaultValue={data.name}
             variant="flushed"
             placeholder="Nombre"
           />
           <Input
-            {...register('comment')}
+            {...register("comment")}
             defaultValue={data.comment}
             variant="flushed"
             placeholder="Comentario"
           />
           <Input
-            {...register('cuit')}
+            {...register("cuit")}
             defaultValue={data.cuit}
             variant="flushed"
             placeholder="CUIT"
           />
           <Input
-            {...register('address')}
+            {...register("address")}
             defaultValue={data.address}
             variant="flushed"
             placeholder="Dirección"
           />
           <Input
-            {...register('checkingAccount')}
+            {...register("checkingAccount")}
             defaultValue={data.checkingAccount}
             variant="flushed"
             type="number"
@@ -106,20 +108,11 @@ const PurchaseForm = ({ renderData, data }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack>
-        <Text fontSize="xl">Proveedor</Text>
-        <Select
-          {...register('provider_id')}
-          variant="flushed"
-          placeholder="Seleccione un proveedor"
-        >
-          {providers?.map((provider) => (
-            <option value={provider._id}>{provider.name}</option>
-          ))}
-        </Select>
+        <SelectProvider form={form} />
         {isProviderSelected && (
           <>
             <Text fontSize="xl">Estado</Text>
-            <Select {...register('status')} variant="flushed">
+            <Select {...register("status")} variant="flushed">
               <option value="pending" selected>
                 Pendiente
               </option>
@@ -132,24 +125,24 @@ const PurchaseForm = ({ renderData, data }) => {
               onChange={(date) => setStartDate(date)}
             />
             <Input
-              {...register('invoice_id')}
+              {...register("invoice_id")}
               variant="flushed"
               placeholder="N° Factura"
             />
             <Input
-              {...register('concept')}
+              {...register("concept")}
               variant="flushed"
               placeholder="Concepto"
             />
             <Input
-              {...register('net')}
+              {...register("net")}
               variant="flushed"
               placeholder="Importe Neto"
               type="number"
               step="any"
             />
             <Input
-              {...register('netPlusIva')}
+              {...register("netPlusIva")}
               variant="flushed"
               placeholder="IVA"
               type="number"
@@ -192,7 +185,7 @@ const PurchaseForm = ({ renderData, data }) => {
               );
             })}
             <Input
-              {...register('total')}
+              {...register("total")}
               variant="flushed"
               placeholder="Total"
               type="number"
@@ -225,20 +218,20 @@ const PurchaseForm = ({ renderData, data }) => {
   function handleImportNetPlusIva() {
     useEffect(() => {
       if (importNet) {
-        setValue('netPlusIva', importNet * 0.21);
+        setValue("netPlusIva", importNet * 0.21);
       }
     }, [importNet]);
   }
 
   function handleTotal() {
     useEffect(() => {
-      console.log(extras, '------------');
+      console.log(extras, "------------");
       let totalExtras = 0;
       extras?.forEach((extra) => (totalExtras += parseFloat(extra.amount)));
       console.log(totalExtras);
       if (importNet || importNetPlusIva) {
         setValue(
-          'total',
+          "total",
           parseFloat(
             parseFloat(importNet) +
               parseFloat(importNetPlusIva) +
