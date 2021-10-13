@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import generateTableContent from "../../util/generateTableContent";
-import { useForm } from "react-hook-form";
-import request from "../../api/chargesRequests";
-import Drawer from "../../components/Drawer";
+import request from "../../api/checkWalletRequest";
 import Table from "../../components/Table";
 import ChargesForm from "../../components/Charges/ChargesForm";
 
-const Charges = () => {
+const CheckWallet = () => {
   const [charges, setCharges] = useState([]);
   const [render, setRender] = useState(false);
   const renderData = { render, setRender };
@@ -15,12 +13,12 @@ const Charges = () => {
   handleCharges();
 
   const columns = [
-    { displayName: "Tipo", key: "type", position: 0 },
-    { displayName: "Cliente", key: "client", position: 1 },
-    { displayName: "Observación", key: "paymentComment", position: 2 },
-    { displayName: "Importe", key: "amount", position: 3 },
-    { displayName: "Fecha", key: "date", position: 4 },
-    { displayName: "Cheque", key: "check_id", position: 5 },
+    { displayName: "Número de cheque", key: "check_number", position: 0 },
+    { displayName: "Estado", key: "status", position: 1 },
+    { displayName: "Banco", key: "bank", position: 2 },
+    { displayName: "Cliente", key: "from", position: 3 },
+    { displayName: "Importe", key: "amount", position: 4 },
+    { displayName: "Fecha", key: "expirationDate", position: 5 },
     { displayName: "Acción", key: "action", position: 6 },
   ];
 
@@ -34,9 +32,6 @@ const Charges = () => {
 
   return (
     <div>
-      <Drawer activationMessage="Cargar Cobros" defaultOpen size="xxl">
-        {drawerForm}
-      </Drawer>
       <Table tableContent={tableContent} />
     </div>
   );
@@ -51,4 +46,4 @@ const Charges = () => {
   }
 };
 
-export default Charges;
+export default CheckWallet;

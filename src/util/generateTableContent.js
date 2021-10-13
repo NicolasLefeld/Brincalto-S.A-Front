@@ -273,7 +273,7 @@ const generateTableContent = (
               );
               return rowProvider;
             }
-            if (key === "client_id" || key === "client") {
+            if (key === "client_id" || key === "client" || key === "from") {
               const rowClient = (
                 <Td key={uuidv4()}>
                   <Text>{rowValue?.name}</Text>
@@ -310,7 +310,7 @@ const generateTableContent = (
               );
               return rowProduct;
             }
-            if (key === "date") {
+            if (key === "date" || key === "expirationDate") {
               const rowProvider = (
                 <Td key={uuidv4()}>
                   <Text>
@@ -318,9 +318,9 @@ const generateTableContent = (
                       year: "numeric",
                       month: "numeric",
                       day: "numeric",
-                      hour: "numeric",
-                      minute: "numeric",
-                      second: "numeric",
+                      // hour: "numeric",
+                      // minute: "numeric",
+                      // second: "numeric",
                     })}
                   </Text>
                 </Td>
