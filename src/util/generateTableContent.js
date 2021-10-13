@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import {
   Thead,
   Stack,
@@ -15,14 +15,14 @@ import {
   Flex,
   Checkbox,
   Spacer,
-} from '@chakra-ui/react';
-import { DeleteIcon, EditIcon, InfoIcon } from '@chakra-ui/icons';
-import Popover from '../components/Popover';
-import Drawer from '../components/Drawer';
-import getDescendantProp from '../util/getDescendantProp';
-import { useLocation } from 'react-router-dom';
-import remitosRequests from '../api/remitosRequests';
-import { useForm } from 'react-hook-form';
+} from "@chakra-ui/react";
+import { DeleteIcon, EditIcon, InfoIcon } from "@chakra-ui/icons";
+import Popover from "../components/Popover";
+import Drawer from "../components/Drawer";
+import getDescendantProp from "../util/getDescendantProp";
+import { useLocation } from "react-router-dom";
+import remitosRequests from "../api/remitosRequests";
+import { useForm } from "react-hook-form";
 
 const generateTableContent = (
   columns,
@@ -33,8 +33,8 @@ const generateTableContent = (
 ) => {
   const location = useLocation();
   const { pathname } = location;
-  const isSpare = pathname.includes('spare');
-  const isOil = pathname.includes('oil');
+  const isSpare = pathname.includes("spare");
+  const isOil = pathname.includes("oil");
 
   const [selectedAllRemitos, setselectedAllRemitos] = useState(false);
 
@@ -43,7 +43,7 @@ const generateTableContent = (
       remitosToBeProcessed: [],
     },
   });
-  const remitosToBeProcessed = watch('remitosToBeProcessed');
+  const remitosToBeProcessed = watch("remitosToBeProcessed");
 
   const onSubmit = async () => {
     await remitosRequests.markAsProcessed(remitosToBeProcessed);
@@ -54,7 +54,7 @@ const generateTableContent = (
   const handleAllRemitos = () => {
     setselectedAllRemitos(!selectedAllRemitos);
     return rows.map((row, index) => {
-      const IsStatusPending = row.status === 'pending';
+      const IsStatusPending = row.status === "pending";
       if (IsStatusPending && !selectedAllRemitos) {
         return setValue(`remitosToBeProcessed.${index}`, row._id);
       }
@@ -69,7 +69,7 @@ const generateTableContent = (
       <Stack>
         <Text>{columns.find((col) => col.position === index).displayName}</Text>
       </Stack>
-      {column.displayName === 'Procesar' && (
+      {column.displayName === "Procesar" && (
         <Stack>
           <Checkbox onChange={handleAllRemitos} isChecked={selectedAllRemitos}>
             Seleccionar Todos
@@ -96,9 +96,9 @@ const generateTableContent = (
           {keys.map((key) => {
             const rowValue = getDescendantProp(row, key);
 
-            if (key === 'action') {
+            if (key === "action") {
               const isSpareOrOil = isSpare || isOil;
-              const handleType = isSpare ? 'Repuesto' : 'Aceite';
+              const handleType = isSpare ? "Repuesto" : "Aceite";
               return (
                 <Td key={uuidv4()}>
                   <ButtonGroup>
@@ -120,8 +120,8 @@ const generateTableContent = (
                       <Popover
                         message={
                           row.movements.length === 0
-                            ? 'No hay movimentos'
-                            : 'Mostrando movimientos'
+                            ? "No hay movimentos"
+                            : "Mostrando movimientos"
                         }
                         trigger={
                           <IconButton
@@ -137,10 +137,10 @@ const generateTableContent = (
                                 <Flex key={uuidv4()}>
                                   <p
                                     style={{
-                                      alignItems: 'center',
-                                      display: 'flex',
-                                      padding: '20px',
-                                      fontSize: '21px',
+                                      alignItems: "center",
+                                      display: "flex",
+                                      padding: "20px",
+                                      fontSize: "21px",
                                     }}
                                   >
                                     {index + 1}
@@ -150,7 +150,7 @@ const generateTableContent = (
                                     <p>
                                       {`Fecha/hora: ${new Date(
                                         move.date,
-                                      ).toLocaleString('es-AR')}`}
+                                      ).toLocaleString("es-AR")}`}
                                     </p>
                                     {isOil && (
                                       <p>Litros tomados: {move.littersTaken}</p>
@@ -170,8 +170,8 @@ const generateTableContent = (
                       <Popover
                         message={
                           row.assignedProducts.length === 0
-                            ? 'No hay productos asignados'
-                            : 'Productos asignados'
+                            ? "No hay productos asignados"
+                            : "Productos asignados"
                         }
                         trigger={
                           <IconButton
@@ -223,11 +223,11 @@ const generateTableContent = (
                 </Td>
               );
             }
-            if (key === 'forProcessing') {
+            if (key === "forProcessing") {
               const rowForProcessing = (
                 <Td key={uuidv4()}>
                   <Stack>
-                    {row.status === 'processed' ? (
+                    {row.status === "processed" ? (
                       <Text>Procesado / {row.statusId}</Text>
                     ) : (
                       <>
@@ -245,19 +245,19 @@ const generateTableContent = (
               );
               return rowForProcessing;
             }
-            if (key === 'liters') {
+            if (key === "liters") {
               return <Td>{`${row.availableLitters} de ${row.liters}`}</Td>;
             }
-            if (key === 'costPerLitter') {
+            if (key === "costPerLitter") {
               return <Td>{`${row.costPerLitter} $`}</Td>;
             }
-            if (key === 'extras') {
+            if (key === "extras") {
               const rowExtras = (
                 <Td key={uuidv4()}>
                   <ol>
                     {rowValue?.map((value) => (
                       <li
-                        style={{ whiteSpace: 'nowrap' }}
+                        style={{ whiteSpace: "nowrap" }}
                       >{`${value.concepto}:${value.amount}`}</li>
                     ))}
                   </ol>
@@ -265,7 +265,7 @@ const generateTableContent = (
               );
               return rowExtras;
             }
-            if (key === 'provider') {
+            if (key === "provider") {
               const rowProvider = (
                 <Td key={uuidv4()}>
                   <Text>{rowValue.name}</Text>
@@ -273,7 +273,7 @@ const generateTableContent = (
               );
               return rowProvider;
             }
-            if (key === 'client_id') {
+            if (key === "client_id" || key === "client") {
               const rowClient = (
                 <Td key={uuidv4()}>
                   <Text>{rowValue?.name}</Text>
@@ -281,7 +281,26 @@ const generateTableContent = (
               );
               return rowClient;
             }
-            if (key === 'product_id') {
+            if (key === "check_id") {
+              const rowClient = (
+                <Td key={uuidv4()}>
+                  <Text>{rowValue?.checkNumber}</Text>
+                  <Text>{rowValue?.status === "received" && "Recibido"}</Text>
+                </Td>
+              );
+              return rowClient;
+            }
+            if (key === "type") {
+              const rowClient = (
+                <Td key={uuidv4()}>
+                  <Text>{rowValue === "cash" && "Efectivo"}</Text>
+                  <Text>{rowValue === "others" && "Otros"}</Text>
+                  <Text>{rowValue === "check" && "Cheque"}</Text>
+                </Td>
+              );
+              return rowClient;
+            }
+            if (key === "product_id") {
               const rowProduct = (
                 <Td key={uuidv4()}>
                   <Text>
@@ -291,17 +310,17 @@ const generateTableContent = (
               );
               return rowProduct;
             }
-            if (key === 'date') {
+            if (key === "date") {
               const rowProvider = (
                 <Td key={uuidv4()}>
                   <Text>
-                    {new Date(rowValue).toLocaleString('es-ES', {
-                      year: 'numeric',
-                      month: 'numeric',
-                      day: 'numeric',
-                      hour: 'numeric',
-                      minute: 'numeric',
-                      second: 'numeric',
+                    {new Date(rowValue).toLocaleString("es-ES", {
+                      year: "numeric",
+                      month: "numeric",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "numeric",
+                      second: "numeric",
                     })}
                   </Text>
                 </Td>

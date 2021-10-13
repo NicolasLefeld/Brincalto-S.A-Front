@@ -19,14 +19,15 @@ import {
   FormControl,
   FormLabel,
   ModalFooter,
-} from '@chakra-ui/react';
-import { useState, useEffect } from 'react';
-import { useForm, useFieldArray, Controller, useWatch } from 'react-hook-form';
-import clientRequest from '../../api/clientRequests';
-import productRequest from '../../api/productsRequests';
-import DatePicker from '../../components/DatePicker';
-import remitosRequest from '../../api/remitosRequests';
-import { DeleteIcon } from '@chakra-ui/icons';
+} from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { useForm, useFieldArray, Controller, useWatch } from "react-hook-form";
+import clientRequest from "../../api/clientRequests";
+import productRequest from "../../api/productsRequests";
+import DatePicker from "../../components/DatePicker";
+import remitosRequest from "../../api/remitosRequests";
+import { DeleteIcon } from "@chakra-ui/icons";
+import SelectClient from "../Clients/SelectClient";
 
 const RemitosForm = ({ renderData, data }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -35,19 +36,21 @@ const RemitosForm = ({ renderData, data }) => {
   const [productsSelected, setProductsSelected] = useState([]);
   const [remitosWithPrice, setRemitosWithPrice] = useState([]);
 
-  const { register, handleSubmit, control, watch } = useForm({
+  const form = useForm({
     defaultValues: {
       remitos: [],
     },
   });
 
+  const { register, handleSubmit, control, watch } = form;
+
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'remitos',
+    name: "remitos",
   });
 
-  const idClientSelected = watch('client_id');
-  const allRemitos = watch('remitos');
+  const idClientSelected = watch("client_id");
+  const allRemitos = watch("remitos");
 
   const _id = data?._id;
 
@@ -69,7 +72,7 @@ const RemitosForm = ({ renderData, data }) => {
           await remitosRequest.postRecord({
             ...remito,
             client_id: idClientSelected,
-            status: 'pending',
+            status: "pending",
           });
         }),
       );
@@ -97,7 +100,7 @@ const RemitosForm = ({ renderData, data }) => {
 
   const handleProductsValues = (data, productId) => {
     const price = data.target.value;
-    const allRemitos = watch('remitos');
+    const allRemitos = watch("remitos");
     return setRemitosWithPrice(
       remitosWithPrice.length > 0
         ? addPriceToRemitos(remitosWithPrice, productId, price)
@@ -109,18 +112,7 @@ const RemitosForm = ({ renderData, data }) => {
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack>
-          <Text fontSize="xl">Cliente</Text>
-          <Select
-            {...register('client_id')}
-            variant="flushed"
-            placeholder="Seleccione un cliente"
-          >
-            {providers?.map((provider) => (
-              <option key={provider._id} value={provider._id}>
-                {provider.name}
-              </option>
-            ))}
-          </Select>
+          <SelectClient form={form} />
           {idClientSelected && (
             <>
               {fields.map((field, index) => {
@@ -135,20 +127,20 @@ const RemitosForm = ({ renderData, data }) => {
                         required
                       >
                         <option
-                          value={'batea'}
-                          selected={allRemitos[index].type === 'batea'}
+                          value={"batea"}
+                          selected={allRemitos[index].type === "batea"}
                         >
                           Venta x 28m3
                         </option>
                         <option
-                          value={'ton'}
-                          selected={allRemitos[index].type === 'ton'}
+                          value={"ton"}
+                          selected={allRemitos[index].type === "ton"}
                         >
                           Venta x TN
                         </option>
                         <option
-                          value={'chasis'}
-                          selected={allRemitos[index].type === 'chasis'}
+                          value={"chasis"}
+                          selected={allRemitos[index].type === "chasis"}
                         >
                           Venta x 6m3
                         </option>
@@ -184,7 +176,7 @@ const RemitosForm = ({ renderData, data }) => {
                         variant="flushed"
                         placeholder="Observaciónes"
                       />
-                      {typeRemito === 'ton' && (
+                      {typeRemito === "ton" && (
                         <Input
                           {...register(`remitos.${index}.tons`)}
                           variant="flushed"

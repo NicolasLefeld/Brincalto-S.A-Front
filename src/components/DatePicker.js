@@ -39,11 +39,12 @@ const DatePickerWrapperStyles = createGlobalStyle`
 
 const FORMAT = "dd/MM/yyyy";
 
-const CustomDatePicker = ({ selected, onChange, defaultDate }) => (
+const CustomDatePicker = ({ selected, onChange, defaultDate, placeholder }) => (
   <>
     <DatePicker
       dateFormat={FORMAT}
       selected={selected}
+      placeholderText={placeholder}
       onChange={onChange}
       wrapperClassName="date_picker full-width"
     />
