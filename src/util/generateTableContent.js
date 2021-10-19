@@ -56,7 +56,7 @@ const generateTableContent = (
     return rows.map((row, index) => {
       const IsStatusPending = row.status === "pending";
       if (IsStatusPending && !selectedAllRemitos) {
-        return setValue(`remitosToBeProcessed.${index}`, row._id);
+        return setValue(`remitosToBeProcessed.${index}`, row.id);
       }
       return setValue(`remitosToBeProcessed.${index}`, false);
     });
@@ -211,7 +211,7 @@ const generateTableContent = (
                         <Button
                           colorScheme="red"
                           onClick={async () => {
-                            await request.deleteRecord(row._id, row.type);
+                            await request.deleteRecord(row.id, row.type);
                             renderData.setRender(!renderData.render);
                           }}
                         >
@@ -232,8 +232,8 @@ const generateTableContent = (
                     ) : (
                       <>
                         <Checkbox
-                          id={row._id}
-                          value={row._id}
+                          id={row.id}
+                          value={row.id}
                           {...register(`remitosToBeProcessed.${index}`)}
                         >
                           Seleccionar
@@ -273,7 +273,7 @@ const generateTableContent = (
               );
               return rowProvider;
             }
-            if (key === "client_id" || key === "client" || key === "from") {
+            if (key === "clientId" || key === "client" || key === "from") {
               const rowClient = (
                 <Td key={uuidv4()}>
                   <Text>{rowValue?.name}</Text>
@@ -281,7 +281,7 @@ const generateTableContent = (
               );
               return rowClient;
             }
-            if (key === "check_id") {
+            if (key === "checkId") {
               const rowClient = (
                 <Td key={uuidv4()}>
                   <Text>{rowValue?.checkNumber}</Text>
@@ -300,7 +300,7 @@ const generateTableContent = (
               );
               return rowClient;
             }
-            if (key === "product_id") {
+            if (key === "productId") {
               const rowProduct = (
                 <Td key={uuidv4()}>
                   <Text>
@@ -327,7 +327,24 @@ const generateTableContent = (
               );
               return rowProvider;
             }
-
+            if (key === "check") {
+              const rowCheck = (
+                <Td key={uuidv4()}>
+                  <Text>{rowValue?.checkNumber}</Text>
+                </Td>
+              );
+              return rowCheck;
+            }
+            if (key === "status") {
+              const rowStatus = (
+                <Td key={uuidv4()}>
+                  <Text>
+                    {rowValue === "received" ? "En cartera" : "Entregado"}
+                  </Text>
+                </Td>
+              );
+              return rowStatus;
+            }
             return <Td key={uuidv4()}>{rowValue}</Td>;
           })}
         </Tr>

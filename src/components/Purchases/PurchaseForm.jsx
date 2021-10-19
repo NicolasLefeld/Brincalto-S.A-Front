@@ -31,7 +31,7 @@ const PurchaseForm = ({ renderData, data }) => {
     name: "extras",
   });
 
-  const isProviderSelected = watch("provider_id");
+  const isProviderSelected = watch("providerId");
   const importNet = watch("net");
   const importNetPlusIva = watch("netPlusIva");
   const extras = watch("extras");
@@ -39,15 +39,15 @@ const PurchaseForm = ({ renderData, data }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [providers, setProviders] = useState([]);
 
-  const _id = data?._id;
+  const id = data?.id;
 
   handleProviders();
   handleImportNetPlusIva();
   handleTotal();
 
-  if (_id) {
+  if (id) {
     const onSubmit = async (data) => {
-      await purchasesRequests.updateRecord(_id, data);
+      await purchasesRequests.updateRecord(id, data);
       renderData.setRender(!renderData.render);
     };
 
@@ -125,7 +125,7 @@ const PurchaseForm = ({ renderData, data }) => {
               onChange={(date) => setStartDate(date)}
             />
             <Input
-              {...register("invoice_id")}
+              {...register("invoiceId")}
               variant="flushed"
               placeholder="N° Factura"
             />

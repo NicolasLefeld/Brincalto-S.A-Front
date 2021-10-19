@@ -22,10 +22,10 @@ const SelectClient = (props) => {
         <Select
           variant="flushed"
           placeholder={placeholder || "Seleccione un cliente"}
-          {...register("client_id")}
+          {...register("clientId")}
         >
           {clients?.map((client) => (
-            <option value={client._id}>{client.name}</option>
+            <option value={client.id}>{client.name}</option>
           ))}
         </Select>
       )}
@@ -36,7 +36,8 @@ const SelectClient = (props) => {
     useEffect(async () => {
       setLoading(true);
       const clients = await clientRequests.getRecords();
-      if (clients) {
+      console.log(clients);
+      if (clients !== "Any clients found") {
         setClients(clients);
         return setLoading(false);
       }

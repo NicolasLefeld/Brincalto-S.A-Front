@@ -5,13 +5,13 @@ import {
   Button,
   DrawerFooter,
   Text,
-} from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
-import request from '../api/stockRequests';
+} from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import request from "../api/stockRequests";
 
 const StockForm = ({ renderData, data, type }) => {
   const { register, handleSubmit, watch } = useForm();
-  const _id = data?._id;
+  const id = data?.id;
 
   const insertStock = async (data) => {
     await request.postRecord(data, type);
@@ -20,42 +20,42 @@ const StockForm = ({ renderData, data, type }) => {
 
   const updateStock = async (data) => {
     if (data?.isMovement) {
-      await request.updateRecordWithMovement(_id, data, type);
+      await request.updateRecordWithMovement(id, data, type);
       renderData.setRender(!renderData.render);
     } else {
-      await request.updateRecord(_id, data, type);
+      await request.updateRecord(id, data, type);
       renderData.setRender(!renderData.render);
     }
   };
 
-  const IsAMovement = watch('isMovement', true);
+  const IsAMovement = watch("isMovement", true);
 
   console.log(data);
-  if (type === 'spare') {
-    if (_id) {
+  if (type === "spare") {
+    if (id) {
       return (
         <form onSubmit={handleSubmit(updateStock)}>
           <Stack>
-            <Checkbox {...register('isMovement')} defaultIsChecked>
+            <Checkbox {...register("isMovement")} defaultIsChecked>
               ¿Es un movimiento?
             </Checkbox>
             {IsAMovement ? (
               <>
                 <Input
-                  {...register('product')}
+                  {...register("product")}
                   variant="flushed"
                   placeholder="Producto"
                   defaultValue={data.product}
                   isDisabled={IsAMovement}
                 />
                 <Input
-                  {...register('comment')}
+                  {...register("comment")}
                   variant="flushed"
                   placeholder="Observación"
                   defaultValue={data.comment}
                 />
                 <Input
-                  {...register('quantity')}
+                  {...register("quantity")}
                   variant="flushed"
                   type="number"
                   step="any"
@@ -66,20 +66,20 @@ const StockForm = ({ renderData, data, type }) => {
             ) : (
               <>
                 <Input
-                  {...register('product')}
+                  {...register("product")}
                   variant="flushed"
                   placeholder="Producto"
                   defaultValue={data.product}
                   isDisabled={IsAMovement}
                 />
                 <Input
-                  {...register('comment')}
+                  {...register("comment")}
                   variant="flushed"
                   placeholder="Observación"
                   defaultValue={data.comment}
                 />
                 <Input
-                  {...register('quantity')}
+                  {...register("quantity")}
                   variant="flushed"
                   type="number"
                   step="any"
@@ -101,17 +101,17 @@ const StockForm = ({ renderData, data, type }) => {
       <form onSubmit={handleSubmit(insertStock)}>
         <Stack>
           <Input
-            {...register('product')}
+            {...register("product")}
             variant="flushed"
             placeholder="Producto"
           />
           <Input
-            {...register('comment')}
+            {...register("comment")}
             variant="flushed"
             placeholder="Observación"
           />
           <Input
-            {...register('quantity')}
+            {...register("quantity")}
             variant="flushed"
             type="number"
             step="any"
@@ -125,29 +125,29 @@ const StockForm = ({ renderData, data, type }) => {
         </DrawerFooter>
       </form>
     );
-  } else if (type === 'oil') {
-    if (_id) {
+  } else if (type === "oil") {
+    if (id) {
       return (
         <form onSubmit={handleSubmit(updateStock)}>
           <Stack>
             <Input
-              {...register('comment')}
+              {...register("comment")}
               variant="flushed"
               placeholder="Aceite"
               defaultValue={data.comment}
             />
-            <Checkbox {...register('isMovement')} defaultIsChecked>
+            <Checkbox {...register("isMovement")} defaultIsChecked>
               ¿Es un movimiento?
             </Checkbox>
             {IsAMovement ? (
               <>
                 <Input
-                  {...register('observation')}
+                  {...register("observation")}
                   variant="flushed"
                   placeholder="Observación"
                 />
                 <Input
-                  {...register('littersTaken')}
+                  {...register("littersTaken")}
                   variant="flushed"
                   type="number"
                   step="any"
@@ -157,7 +157,7 @@ const StockForm = ({ renderData, data, type }) => {
             ) : (
               <>
                 <Input
-                  {...register('liters')}
+                  {...register("liters")}
                   variant="flushed"
                   placeholder="Litros Iniciales"
                   type="number"
@@ -165,7 +165,7 @@ const StockForm = ({ renderData, data, type }) => {
                   defaultValue={data.liters}
                 />
                 <Input
-                  {...register('availableLitters')}
+                  {...register("availableLitters")}
                   variant="flushed"
                   type="number"
                   step="any"
@@ -173,7 +173,7 @@ const StockForm = ({ renderData, data, type }) => {
                   defaultValue={data.availableLitters}
                 />
                 <Input
-                  {...register('costPerLitter')}
+                  {...register("costPerLitter")}
                   variant="flushed"
                   type="number"
                   step="any"
@@ -195,26 +195,26 @@ const StockForm = ({ renderData, data, type }) => {
       <form onSubmit={handleSubmit(insertStock)}>
         <Stack>
           <Input
-            {...register('comment')}
+            {...register("comment")}
             variant="flushed"
             placeholder="Aceite"
           />
           <Input
-            {...register('liters')}
+            {...register("liters")}
             variant="flushed"
             placeholder="Litros Iniciales"
             type="number"
             step="any"
           />
           <Input
-            {...register('availableLitters')}
+            {...register("availableLitters")}
             variant="flushed"
             placeholder="Litros Disponibles"
             type="number"
             step="any"
           />
           <Input
-            {...register('costPerLitter')}
+            {...register("costPerLitter")}
             variant="flushed"
             type="number"
             step="any"

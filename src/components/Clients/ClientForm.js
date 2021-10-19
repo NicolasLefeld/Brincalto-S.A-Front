@@ -14,18 +14,17 @@ import productsRequest from "../../api/productsRequests";
 
 const ClientForm = ({ renderData, data }) => {
   const [products, setProducts] = useState([]);
-
-  const { register, handleSubmit, watch } = useForm({
+  const form = useForm({
     defaultValues: {
       sales: [],
       products: [],
       assignedProducts: [],
     },
   });
-  const assignedProducts = watch("assigned_products");
-  console.log(assignedProducts);
 
-  const _id = data?._id;
+  const { register, handleSubmit } = form;
+
+  const id = data?.id;
 
   handleProducts();
 
@@ -39,11 +38,11 @@ const ClientForm = ({ renderData, data }) => {
       <Stack border="1px" borderColor="gray.200" padding={4}>
         <Text fontSize="xl">Productos asignados</Text>
         <CheckboxGroup colorScheme="blue">
-          {products.map((product) => (
+          {products?.map((product) => (
             <Checkbox
-              id={product._id}
-              value={product._id}
-              {...register(`assigned_products`)}
+              id={product.id}
+              value={product.id}
+              {...register(`assignedProducts`)}
             >
               {product.name}
             </Checkbox>
@@ -93,12 +92,12 @@ const ClientForm = ({ renderData, data }) => {
 
   const handleEdit = () => {
     const onSubmit = async (data) => {
-      await clientRequest.updateRecord(_id, data);
+      await clientRequest.updateRecord(id, data);
       renderData.setRender(!renderData.render);
     };
 
     const assignedProducts = data?.assignedProducts.map(
-      (product) => product._id,
+      (product) => product.id,
     );
 
     return (
@@ -109,9 +108,9 @@ const ClientForm = ({ renderData, data }) => {
             <CheckboxGroup colorScheme="blue" defaultValue={assignedProducts}>
               {products.map((product) => (
                 <Checkbox
-                  id={product._id}
-                  value={product._id}
-                  {...register(`assigned_products`)}
+                  id={product.id}
+                  value={product.id}
+                  {...register(`assignedProducts`)}
                 >
                   {product.name}
                 </Checkbox>
@@ -166,7 +165,7 @@ const ClientForm = ({ renderData, data }) => {
     );
   };
 
-  if (_id) {
+  if (id) {
     return handleEdit();
   }
 
@@ -175,7 +174,9 @@ const ClientForm = ({ renderData, data }) => {
   function handleProducts() {
     useEffect(async () => {
       const allProducts = await productsRequest.getRecords();
-      setProducts(allProducts);
+      if (allProducts !== "Any products found") {
+        setProducts(allProducts);
+      }
     }, []);
   }
 };

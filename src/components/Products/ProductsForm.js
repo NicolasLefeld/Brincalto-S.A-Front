@@ -1,14 +1,14 @@
-import { Input, Stack, Button, DrawerFooter } from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
-import request from '../../api/productsRequests';
+import { Input, Stack, Button, DrawerFooter } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import request from "../../api/productsRequests";
 
 const ProductsForm = ({ renderData, data }) => {
   const { register, handleSubmit } = useForm();
-  const _id = data?._id;
+  const id = data?.id;
 
-  if (_id) {
+  if (id) {
     const onSubmit = async (data) => {
-      await request.updateRecord(_id, data);
+      await request.updateRecord(id, data);
       renderData.setRender(!renderData.render);
     };
 
@@ -16,7 +16,7 @@ const ProductsForm = ({ renderData, data }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack>
           <Input
-            {...register('name')}
+            {...register("name")}
             defaultValue={data.name}
             variant="flushed"
             placeholder="Nombre"
@@ -39,7 +39,7 @@ const ProductsForm = ({ renderData, data }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack>
-        <Input {...register('name')} variant="flushed" placeholder="Nombre" />
+        <Input {...register("name")} variant="flushed" placeholder="Nombre" />
       </Stack>
       <DrawerFooter>
         <Button type="submit" colorScheme="blue">

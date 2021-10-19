@@ -1,14 +1,14 @@
-import { Input, Stack, Button, DrawerFooter } from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
-import request from '../../api/providerRequests';
+import { Input, Stack, Button, DrawerFooter } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import request from "../../api/providerRequests";
 
 const ProviderForm = ({ renderData, data }) => {
   const { register, handleSubmit } = useForm();
-  const _id = data?._id;
+  const id = data?.id;
 
-  if (_id) {
+  if (id) {
     const onSubmit = async (data) => {
-      await request.updateRecord(_id, data);
+      await request.updateRecord(id, data);
       renderData.setRender(!renderData.render);
     };
 
@@ -16,31 +16,31 @@ const ProviderForm = ({ renderData, data }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack>
           <Input
-            {...register('name')}
+            {...register("name")}
             defaultValue={data.name}
             variant="flushed"
             placeholder="Nombre"
           />
           <Input
-            {...register('comment')}
+            {...register("comment")}
             defaultValue={data.comment}
             variant="flushed"
             placeholder="Comentario"
           />
           <Input
-            {...register('cuit')}
+            {...register("cuit")}
             defaultValue={data.cuit}
             variant="flushed"
             placeholder="CUIT"
           />
           <Input
-            {...register('address')}
+            {...register("address")}
             defaultValue={data.address}
             variant="flushed"
             placeholder="Dirección"
           />
           <Input
-            {...register('checkingAccount')}
+            {...register("checkingAccount")}
             defaultValue={data.checkingAccount}
             variant="flushed"
             type="number"
@@ -65,22 +65,22 @@ const ProviderForm = ({ renderData, data }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack>
-        <Input {...register('name')} variant="flushed" placeholder="Nombre" />
+        <Input {...register("name")} variant="flushed" placeholder="Nombre" />
         <Input
-          {...register('checkingAccount')}
+          {...register("checkingAccount")}
           variant="flushed"
           type="number"
           step="any"
           placeholder="Cuenta corriente"
         />
         <Input
-          {...register('comment')}
+          {...register("comment")}
           variant="flushed"
           placeholder="Comentario"
         />
-        <Input {...register('cuit')} variant="flushed" placeholder="CUIT" />
+        <Input {...register("cuit")} variant="flushed" placeholder="CUIT" />
         <Input
-          {...register('address')}
+          {...register("address")}
           variant="flushed"
           placeholder="Dirección"
         />

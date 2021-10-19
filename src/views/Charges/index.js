@@ -20,7 +20,7 @@ const Charges = () => {
     { displayName: "Observación", key: "paymentComment", position: 2 },
     { displayName: "Importe", key: "amount", position: 3 },
     { displayName: "Fecha", key: "date", position: 4 },
-    { displayName: "Cheque", key: "check_id", position: 5 },
+    { displayName: "Cheque", key: "check", position: 5 },
     { displayName: "Acción", key: "action", position: 6 },
   ];
 

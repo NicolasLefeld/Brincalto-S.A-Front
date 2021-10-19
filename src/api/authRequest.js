@@ -1,8 +1,8 @@
-import axiosRequest from './axiosRequest';
+import axiosRequest from "./axiosRequest";
 
 const putAuth = async (data) => {
   const response = await axiosRequest.put(`/auth`, data);
-  console.log('auth fetched ', response.data);
+  console.log("auth fetched ", response.data);
   return response.data;
 };
 
@@ -18,15 +18,15 @@ const putAuth = async (data) => {
 //   return response.data;
 // };
 
-// const updateRecord = async (_id, data) => {
-//   const response = await axiosRequest.put(`/client/${_id}`, data);
+// const updateRecord = async (id, data) => {
+//   const response = await axiosRequest.put(`/client/${id}`, data);
 //   console.log('client updated ', response.data);
 //   return response.data;
 // };
 
-// const deleteRecord = async (_id) => {
-//   const response = await axiosRequest.delete(`/client/${_id}`);
-//   console.log('client deleted ', _id, response.data);
+// const deleteRecord = async (id) => {
+//   const response = await axiosRequest.delete(`/client/${id}`);
+//   console.log('client deleted ', id, response.data);
 //   return response.data;
 // };
 

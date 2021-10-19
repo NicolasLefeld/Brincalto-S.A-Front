@@ -1,9 +1,9 @@
-import axiosRequest from './axiosRequest';
+import axiosRequest from "./axiosRequest";
 
-const routeName = '/sales/remitos';
+const routeName = "/sales/remitos";
 
-const getRecord = async (_id) => {
-  const response = await axiosRequest.get(`${routeName}/${_id}`);
+const getRecord = async (id) => {
+  const response = await axiosRequest.get(`${routeName}/${id}`);
   console.log(`${routeName} fetched `, response.data);
   return response.data;
 };
@@ -20,15 +20,15 @@ const postRecord = async (data) => {
   return response.data;
 };
 
-const updateRecord = async (_id, data) => {
-  const response = await axiosRequest.put(`${routeName}/${_id}`, data);
+const updateRecord = async (id, data) => {
+  const response = await axiosRequest.put(`${routeName}/${id}`, data);
   console.log(`${routeName} updated`, response.data);
   return response.data;
 };
 
-const deleteRecord = async (_id) => {
-  const response = await axiosRequest.delete(`${routeName}/${_id}`);
-  console.log(`${routeName} deleted `, _id, response.data);
+const deleteRecord = async (id) => {
+  const response = await axiosRequest.delete(`${routeName}/${id}`);
+  console.log(`${routeName} deleted `, id, response.data);
   return response.data;
 };
 
@@ -42,11 +42,11 @@ const markAsProcessed = async (data) => {
 
 const downloadPDF = async (data) => {
   const response = await axiosRequest.post(`${routeName}/getPdf`, data, {
-    responseType: 'arraybuffer',
+    responseType: "arraybuffer",
     encoding: null,
     headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/pdf',
+      "Content-Type": "application/json",
+      Accept: "application/pdf",
     },
   });
   console.log(`${routeName}/getPdf updated`, response.data);

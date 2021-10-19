@@ -2,8 +2,8 @@ import axiosRequest from "./axiosRequest";
 
 const routeName = "/checks";
 
-const getRecord = async (_id) => {
-  const response = await axiosRequest.get(`${routeName}/${_id}`);
+const getRecord = async (id) => {
+  const response = await axiosRequest.get(`${routeName}/${id}`);
   console.log(`${routeName} fetched `, response.data);
   return response.data;
 };
@@ -23,15 +23,15 @@ const postRecord = async (data, paymentMethod) => {
   return response.data;
 };
 
-const updateRecord = async (_id, data) => {
-  const response = await axiosRequest.put(`${routeName}/${_id}`, data);
+const updateRecord = async (id, data) => {
+  const response = await axiosRequest.put(`${routeName}/${id}`, data);
   console.log(`${routeName} updated`, response.data);
   return response.data;
 };
 
-const deleteRecord = async (_id) => {
-  const response = await axiosRequest.delete(`${routeName}/${_id}`);
-  console.log(`${routeName} deleted `, _id, response.data);
+const deleteRecord = async (id) => {
+  const response = await axiosRequest.delete(`${routeName}/${id}`);
+  console.log(`${routeName} deleted `, id, response.data);
   return response.data;
 };
 

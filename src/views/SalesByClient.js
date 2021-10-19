@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Stack, Text, HStack } from '@chakra-ui/layout';
-import { Select } from '@chakra-ui/select';
-import { useForm } from 'react-hook-form';
-import clientRequest from '../api/clientRequests';
+import React, { useState, useEffect } from "react";
+import { Stack, Text, HStack } from "@chakra-ui/layout";
+import { Select } from "@chakra-ui/select";
+import { useForm } from "react-hook-form";
+import clientRequest from "../api/clientRequests";
 
 const SalesByClient = () => {
   const { register, watch } = useForm({
@@ -12,7 +12,7 @@ const SalesByClient = () => {
   });
   const [salesClient, setSalesClient] = useState([]);
   const [clients, setClients] = useState([]);
-  const clientSelected = watch('clientSelected');
+  const clientSelected = watch("clientSelected");
 
   handleClients();
   handleClientSelected();
@@ -23,11 +23,11 @@ const SalesByClient = () => {
         <Text>Historial C/C Cliente</Text>
         <Select
           variant="flushed"
-          placeholder={'Seleccione el cliente'}
+          placeholder={"Seleccione el cliente"}
           {...register(`clientSelected`)}
         >
           {clients?.map((provider) => (
-            <option value={provider._id}>{provider.name}</option>
+            <option value={provider.id}>{provider.name}</option>
           ))}
         </Select>
         {salesClient && (
@@ -43,14 +43,14 @@ const SalesByClient = () => {
                   <HStack>
                     <Text>{index + 1}</Text>
                     <Text>
-                      {purchase.amount} $, el día{' '}
-                      {new Date(purchase.date).toLocaleString('es-ES', {
-                        year: 'numeric',
-                        month: 'numeric',
-                        day: 'numeric',
-                        hour: 'numeric',
-                        minute: 'numeric',
-                        second: 'numeric',
+                      {purchase.amount} $, el día{" "}
+                      {new Date(purchase.date).toLocaleString("es-ES", {
+                        year: "numeric",
+                        month: "numeric",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "numeric",
+                        second: "numeric",
                       })}
                     </Text>
                   </HStack>
@@ -73,7 +73,7 @@ const SalesByClient = () => {
   function handleClientSelected() {
     useEffect(() => {
       const clientFinded = clients.find(
-        (provider) => provider._id === clientSelected,
+        (provider) => provider.id === clientSelected,
       );
 
       setSalesClient(clientFinded);

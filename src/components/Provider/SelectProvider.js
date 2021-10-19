@@ -22,10 +22,10 @@ const SelectProvider = (props) => {
         <Select
           variant="flushed"
           placeholder={placeholder || "Seleccione un proveedor"}
-          {...register("provider_id")}
+          {...register("providerId")}
         >
           {providers?.map((provider) => (
-            <option value={provider._id}>{provider.name}</option>
+            <option value={provider.id}>{provider.name}</option>
           ))}
         </Select>
       )}

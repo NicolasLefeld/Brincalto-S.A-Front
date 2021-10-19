@@ -1,14 +1,14 @@
-import { Input, Stack, Button, DrawerFooter, Select } from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
-import request from '../../api/userRequests';
+import { Input, Stack, Button, DrawerFooter, Select } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import request from "../../api/userRequests";
 
 const UserForm = ({ renderData, data }) => {
   const { register, handleSubmit } = useForm();
-  const _id = data?._id;
+  const id = data?.id;
 
-  if (_id) {
+  if (id) {
     const onSubmit = async (data) => {
-      await request.updateRecord(_id, data);
+      await request.updateRecord(id, data);
       renderData.setRender(!renderData.render);
     };
 
@@ -16,19 +16,19 @@ const UserForm = ({ renderData, data }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack>
           <Input
-            {...register('email')}
+            {...register("email")}
             defaultValue={data?.email}
             variant="flushed"
             placeholder="Email"
           />
           <Input
-            {...register('password')}
+            {...register("password")}
             variant="flushed"
             placeholder="Contraseña"
             defaultValue="1234"
             value="1234"
           />
-          <Select {...register('role')}>
+          <Select {...register("role")}>
             <option value="admin">Admin</option>
             <option value="operator">Operador</option>
           </Select>
@@ -51,19 +51,19 @@ const UserForm = ({ renderData, data }) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack>
         <Input
-          {...register('email')}
+          {...register("email")}
           defaultValue={data?.email}
           variant="flushed"
           placeholder="Email"
         />
         <Input
-          {...register('password')}
+          {...register("password")}
           defaultValue={data?.password}
           variant="flushed"
           type="number"
           placeholder="Contraseña"
         />
-        <Select {...register('role')}>
+        <Select {...register("role")}>
           <option value="admin">Administrador</option>
           <option value="operator">Operador</option>
         </Select>

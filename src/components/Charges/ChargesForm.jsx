@@ -44,10 +44,10 @@ const ChargesForm = ({ renderData, data }) => {
     name: "charges",
   });
 
-  const idClientSelected = watch("client_id");
+  const idClientSelected = watch("clientId");
   const allCharges = watch("charges");
   const paymentComment = watch("paymentComment");
-  const _id = data?._id;
+  const id = data?.id;
 
   const onSubmit = async (data) => {
     try {
@@ -208,9 +208,9 @@ const ChargesForm = ({ renderData, data }) => {
 
 export default ChargesForm;
 
-// if (_id) {
+// if (id) {
 //   const onSubmit = async (data) => {
-//     await chargesRequest.updateRecord(_id, data);
+//     await chargesRequest.updateRecord(id, data);
 //     renderData.setRender(!renderData.render);
 //   };
 

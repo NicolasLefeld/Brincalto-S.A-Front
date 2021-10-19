@@ -8,13 +8,13 @@ import SelectProvider from "../components/Provider/SelectProvider";
 const PurchasesByProvider = () => {
   const form = useForm({
     defaultValues: {
-      // provider_id: false,
+      // providerId: false,
     },
   });
   const { register, watch } = form;
   const [purchasesProvider, setPurchasesProvider] = useState([]);
   const [providers, setProviders] = useState([]);
-  const provider_id = watch("provider_id");
+  const providerId = watch("providerId");
 
   handleProviders();
   handleProviderSelected();
@@ -89,11 +89,11 @@ const PurchasesByProvider = () => {
   function handleProviderSelected() {
     useEffect(() => {
       const providerFiltered = providers.find(
-        (provider) => provider._id === provider_id,
+        (provider) => provider.id === providerId,
       );
 
       setPurchasesProvider(providerFiltered);
-    }, [provider_id, providers]);
+    }, [providerId, providers]);
   }
 };
 

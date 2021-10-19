@@ -49,17 +49,17 @@ const RemitosForm = ({ renderData, data }) => {
     name: "remitos",
   });
 
-  const idClientSelected = watch("client_id");
+  const idClientSelected = watch("clientId");
   const allRemitos = watch("remitos");
 
-  const _id = data?._id;
+  const id = data?.id;
 
   handleClients();
   handleProducts();
   handleCleanProductsParsedWhenOpenModal();
 
   const onSubmit = async (data) => {
-    const parsedProducts = data?.remitos.map((remito) => remito.product_id);
+    const parsedProducts = data?.remitos.map((remito) => remito.productId);
     let uniqueProducts = [...new Set(parsedProducts)];
     setProductsSelected(uniqueProducts);
     onOpen();
@@ -71,7 +71,7 @@ const RemitosForm = ({ renderData, data }) => {
         remitosWithPrice?.map(async (remito) => {
           await remitosRequest.postRecord({
             ...remito,
-            client_id: idClientSelected,
+            clientId: idClientSelected,
             status: "pending",
           });
         }),
@@ -86,7 +86,7 @@ const RemitosForm = ({ renderData, data }) => {
 
   const addPriceToRemitos = (remitos, IdremitoToAddPrice, price) =>
     remitos?.map((remito) => {
-      if (remito.product_id === IdremitoToAddPrice) {
+      if (remito.productId === IdremitoToAddPrice) {
         return {
           ...remito,
           price,
@@ -157,18 +157,18 @@ const RemitosForm = ({ renderData, data }) => {
                         )}
                       />
                       <Input
-                        {...register(`remitos.${index}.remito_id`)}
+                        {...register(`remitos.${index}.remitoId`)}
                         variant="flushed"
                         placeholder="N° Remito"
                       />
                       <Select
-                        {...register(`remitos.${index}.product_id`)}
+                        {...register(`remitos.${index}.productId`)}
                         variant="flushed"
                         placeholder="Seleccione un producto"
                         required
                       >
                         {products?.map((product) => (
-                          <option value={product._id}>{product.name}</option>
+                          <option value={product.id}>{product.name}</option>
                         ))}
                       </Select>
                       <Input
@@ -226,7 +226,7 @@ const RemitosForm = ({ renderData, data }) => {
               <FormControl mt={4}>
                 <FormLabel>
                   {
-                    products.find((product) => productSelected === product._id)
+                    products.find((product) => productSelected === product.id)
                       ?.name
                   }
                 </FormLabel>
@@ -272,9 +272,9 @@ const RemitosForm = ({ renderData, data }) => {
 
 export default RemitosForm;
 
-// if (_id) {
+// if (id) {
 //   const onSubmit = async (data) => {
-//     await remitosRequest.updateRecord(_id, data);
+//     await remitosRequest.updateRecord(id, data);
 //     renderData.setRender(!renderData.render);
 //   };
 

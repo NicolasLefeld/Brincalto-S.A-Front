@@ -22,27 +22,27 @@ const Sales = ({ renderData, data }) => {
 
   const { register, handleSubmit, watch, setValue } = form;
 
-  const isClientSelected = watch("client_id");
+  const isClientSelected = watch("clientId");
   const isTypeSelected = watch("type");
   const importNet = watch("net");
   const importNetPlusIva = watch("netPlusIva");
 
   const [startDate, setStartDate] = useState(new Date());
 
-  const _id = data?._id;
+  const id = data?.id;
 
   handleImportNetPlusIva();
   handleTotal();
 
-  if (_id) {
+  if (id) {
     const onSubmit = async (data) => {
-      await salesRequests.updateRecord(_id, data);
+      await salesRequests.updateRecord(id, data);
       renderData.setRender(!renderData.render);
     };
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack>
-          <SelectClient form={form} placeholder={data.client_id.name} />
+          <SelectClient form={form} placeholder={data.clientId.name} />
           <Text fontSize="xl">Tipo factura</Text>
           <Select
             {...register("type")}
@@ -66,10 +66,10 @@ const Sales = ({ renderData, data }) => {
             onChange={(date) => setStartDate(date)}
           />
           <Input
-            {...register("invoice_id")}
+            {...register("invoiceId")}
             variant="flushed"
             placeholder="N° Factura"
-            defaultValue={data.invoice_id}
+            defaultValue={data.invoiceId}
           />
           <Input
             {...register("concept")}
@@ -156,7 +156,7 @@ const Sales = ({ renderData, data }) => {
               onChange={(date) => setStartDate(date)}
             />
             <Input
-              {...register("invoice_id")}
+              {...register("invoiceId")}
               variant="flushed"
               placeholder="N° Factura"
             />
