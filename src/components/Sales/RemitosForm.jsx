@@ -18,7 +18,7 @@ import {
     ModalFooter,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
 import clientRequest from "../../api/clientRequests";
 import productRequest from "../../api/productsRequests";
 import DatePicker from "../../components/DatePicker";

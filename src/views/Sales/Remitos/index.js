@@ -11,12 +11,14 @@ import { useForm } from "react-hook-form";
 import { HStack, Text, Stack } from "@chakra-ui/layout";
 import FilterByCalendar from "../../../components/Sales/FilterByCalendar";
 import { Button } from "@chakra-ui/button";
+import { Checkbox } from "@chakra-ui/checkbox";
 
 const Remitos = () => {
     const { register, watch } = useForm();
 
     const clientSelected = watch("clientSelected");
     const stateSelected = watch("stateSelected");
+    const showFilter = watch("showFilter");
 
     const [to, setTo] = useState(new Date());
     const [from, setFrom] = useState(new Date());
@@ -89,45 +91,57 @@ const Remitos = () => {
                 border={"1px solid rgba(66,66,66,0.1)"}
                 borderRadius={5}
             >
-                <Text fontSize="xl">Filtros de remitos</Text>
-
-                <HStack py={3}>
-                    <Select
-                        variant="flushed"
-                        placeholder={"Filtrar por cliente"}
-                        {...register(`clientSelected`)}
-                    >
-                        <option value="all">Todos</option>
-                        {clients?.map((client) => (
-                            <option value={client.id}>{client.name}</option>
-                        ))}
-                    </Select>
-                    <Select
-                        variant="flushed"
-                        placeholder={"Filtrar por estado"}
-                        {...register(`stateSelected`)}
-                    >
-                        <option value="all">Todos</option>
-                        <option value="pending">Pendiente</option>
-                        <option value="processed">Procesada</option>
-                    </Select>
-                </HStack>
-                <Stack>
-                    <Text fontSize="xl">Periodo de remitos</Text>
-                    <FilterByCalendar
-                        from={from}
-                        to={to}
-                        handleDayClick={handleNewRangeFilters}
+                <HStack>
+                    <Text fontSize="xl">
+                        Mostrar filtros de <b>Remitos</b>
+                    </Text>
+                    <Checkbox
+                        placeholder={"Mostrar"}
+                        {...register(`showFilter`)}
                     />
-                    <Button
-                        spacing={10}
-                        color="green.500"
-                        fontSize="md"
-                        onClick={downloadPDF}
-                    >
-                        Imprimir Periodio
-                    </Button>
-                </Stack>
+                </HStack>
+                {showFilter && (
+                    <>
+                        <HStack py={3}>
+                            <Select
+                                variant="flushed"
+                                placeholder={"Filtrar por cliente"}
+                                {...register(`clientSelected`)}
+                            >
+                                <option value="all">Todos</option>
+                                {clients?.map((client) => (
+                                    <option value={client.id}>
+                                        {client.name}
+                                    </option>
+                                ))}
+                            </Select>
+                            <Select
+                                variant="flushed"
+                                placeholder={"Filtrar por estado"}
+                                {...register(`stateSelected`)}
+                            >
+                                <option value="all">Todos</option>
+                                <option value="pending">Pendiente</option>
+                                <option value="processed">Procesada</option>
+                            </Select>
+                        </HStack>
+                        <Stack>
+                            <FilterByCalendar
+                                from={from}
+                                to={to}
+                                handleDayClick={handleNewRangeFilters}
+                            />
+                            <Button
+                                spacing={10}
+                                color="green.500"
+                                fontSize="md"
+                                onClick={downloadPDF}
+                            >
+                                Imprimir Periodio
+                            </Button>
+                        </Stack>
+                    </>
+                )}
             </Stack>
             <Drawer activationMessage="Cargar remitos" defaultOpen size="xl">
                 <RemitosForm renderData={renderData} />
