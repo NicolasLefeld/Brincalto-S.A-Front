@@ -20,36 +20,40 @@ import Payments from "../views/Payments";
 import CheckWallet from "../views/CheckWallet";
 
 const Routes = () => {
-  return (
-    <Switch>
-      <Route path="/" exact component={Auth} />
-      <PrivateRoute path="/home" exact component={Landing} />
-      <PrivateRoute path="/stock/oil" exact component={Oil} />
-      <PrivateRoute path="/stock/oil/:oilId" exact component={Oil} />
-      <PrivateRoute path="/stock/spare" exact component={Spare} />
-      <PrivateRoute path="/clients" exact component={Client} />
-      <PrivateRoute path="/user" exact component={User} />
-      <PrivateRoute path="/provider" exact component={Provider} />
-      <PrivateRoute path="/products" exact component={Products} />
-      <PrivateRoute path="/purchases/new" exact component={Purchases} />
-      <PrivateRoute
-        path="/purchases/cc"
-        exact
-        component={PurchasesByProvider}
-      />
-      <PrivateRoute path="/sales/invoices" exact component={Invoices} />
-      <PrivateRoute path="/sales/remitos" exact component={Remitos} />
-      <PrivateRoute path="/sales/cc" exact component={SalesByClient} />
-      <PrivateRoute path="/treasury/charges" exact component={Charges} />
-      <PrivateRoute path="/treasury/payments" exact component={Payments} />
-      <PrivateRoute
-        path="/treasury/checkWallet"
-        exact
-        component={CheckWallet}
-      />
-      <Redirect to="/" />
-    </Switch>
-  );
+    return (
+        <Switch>
+            <Route path="/" exact component={Auth} />
+            <PrivateRoute path="/home" exact component={Landing} />
+            <PrivateRoute path="/stock/oil" exact component={Oil} />
+            <PrivateRoute path="/stock/oil/:oilId" exact component={Oil} />
+            <PrivateRoute path="/stock/spare" exact component={Spare} />
+            <PrivateRoute path="/clients" exact component={Client} />
+            <PrivateRoute path="/user" exact component={User} />
+            <PrivateRoute path="/provider" exact component={Provider} />
+            <PrivateRoute path="/products" exact component={Products} />
+            <PrivateRoute path="/purchases/new" exact component={Purchases} />
+            <PrivateRoute
+                path="/purchases/cc"
+                exact
+                component={PurchasesByProvider}
+            />
+            <PrivateRoute path="/sales/invoices" exact component={Invoices} />
+            <PrivateRoute path="/sales/remitos" exact component={Remitos} />
+            <PrivateRoute path="/sales/cc" exact component={SalesByClient} />
+            <PrivateRoute path="/treasury/charges" exact component={Charges} />
+            <PrivateRoute
+                path="/treasury/payments"
+                exact
+                component={Payments}
+            />
+            <PrivateRoute
+                path="/treasury/checkWallet"
+                exact
+                component={CheckWallet}
+            />
+            <Redirect to="/" />
+        </Switch>
+    );
 };
 
 export default Routes;

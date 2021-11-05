@@ -1,29 +1,30 @@
-const TOKEN_KEY = 'jwt';
-import jwtDecode from 'jwt-decode';
+const TOKEN_KEY = "jwt";
+import jwtDecode from "jwt-decode";
 
 export const login = (token) => {
-  localStorage.setItem(TOKEN_KEY, token);
+    localStorage.setItem(TOKEN_KEY, token);
 };
 
 export const logout = () => {
-  localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(TOKEN_KEY);
 };
 
 export const isLogin = () => {
-  if (localStorage.getItem(TOKEN_KEY)) {
-    return true;
-  }
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (token) {
+        return token;
+    }
 
-  return false;
+    return false;
 };
 
 export const isAdmin = () => {
-  try {
-    // valid token format
-    const { role } = jwtDecode(localStorage.getItem(TOKEN_KEY));
-    return role === 'admin';
-  } catch (error) {
-    // invalid token format
-    return logout();
-  }
+    try {
+        // valid token format
+        const { role } = jwtDecode(localStorage.getItem(TOKEN_KEY));
+        return role === "admin";
+    } catch (error) {
+        // invalid token format
+        return logout();
+    }
 };
