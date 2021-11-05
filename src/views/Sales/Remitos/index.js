@@ -68,7 +68,7 @@ const Remitos = () => {
   const downloadPDF = async () => {
     const idAllSales = remitos?.map((sale) => sale.id);
     const pdf = await request.downloadPDF(idAllSales);
-    var pdfBlob = new Blob([pdf], { type: "application/pdf" });
+    const pdfBlob = new Blob([pdf], { type: "application/pdf" });
     const blobUrl = window.URL.createObjectURL(pdfBlob);
     const link = document.createElement("a");
     link.href = blobUrl;

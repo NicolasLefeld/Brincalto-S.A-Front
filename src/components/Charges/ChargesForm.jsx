@@ -1,30 +1,14 @@
 import {
-  Spacer,
   Textarea,
   Input,
   Stack,
   Button,
-  Text,
   DrawerFooter,
   Select,
-  Flex,
   HStack,
   Center,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  FormControl,
-  FormLabel,
-  ModalFooter,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
-import { useForm, useFieldArray, Controller, useWatch } from "react-hook-form";
-import clientRequest from "../../api/clientRequests";
-import productRequest from "../../api/productsRequests";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
 import DatePicker from "../DatePicker";
 import chargesRequest from "../../api/chargesRequests";
 import { DeleteIcon } from "@chakra-ui/icons";
@@ -51,20 +35,31 @@ const ChargesForm = ({ renderData, data }) => {
 
   const onSubmit = async (data) => {
     try {
+      console.log(data);
       console.log(allCharges);
       const result = await Promise.all(
         allCharges?.map(async (charge) => {
-          await chargesRequest.postRecord(
-            {
-              ...charge,
-              clientId: idClientSelected,
-              paymentComment,
-            },
-            charge.paymentMethod,
-          );
+          return await chargesRequest.postRecord({
+            ...charge,
+            clientId: idClientSelected,
+            paymentComment,
+          });
         }),
       );
+      console.log(result);
       renderData.setRender(!renderData.render);
+      const idAllSales = result?.map((charge) => charge._id);
+      const pdf = await chargesRequest.downloadPDF(idAllSales);
+      const pdfBlob = new Blob([pdf], { type: "application/pdf" });
+      const blobUrl = window.URL.createObjectURL(pdfBlob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.setAttribute("download", `Cobros-${new Date()}.pdf`);
+      link.click();
+      link.remove();
+      console.log(result);
+      // return result;
+      URL.revokeObjectURL(blobUrl);
       return result;
     } catch (error) {
       console.log(error);
@@ -190,7 +185,7 @@ const ChargesForm = ({ renderData, data }) => {
           )}
           <Textarea
             {...register("paymentComment")}
-            placeholder="Observación para cada pago ingresado"
+            placeholder="Observación para cada cobro ingresado"
             size="sm"
           />
         </Stack>

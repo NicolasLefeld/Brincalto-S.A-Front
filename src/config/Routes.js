@@ -16,6 +16,7 @@ import SalesByClient from "../views/SalesByClient";
 import Invoices from "../views/Sales/Invoices";
 import Remitos from "../views/Sales/Remitos";
 import Charges from "../views/Charges";
+import Payments from "../views/Payments";
 import CheckWallet from "../views/CheckWallet";
 
 const Routes = () => {
@@ -40,6 +41,7 @@ const Routes = () => {
       <PrivateRoute path="/sales/remitos" exact component={Remitos} />
       <PrivateRoute path="/sales/cc" exact component={SalesByClient} />
       <PrivateRoute path="/treasury/charges" exact component={Charges} />
+      <PrivateRoute path="/treasury/payments" exact component={Payments} />
       <PrivateRoute
         path="/treasury/checkWallet"
         exact

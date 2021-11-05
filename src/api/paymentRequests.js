@@ -1,6 +1,6 @@
 import axiosRequest from "./axiosRequest";
 
-const routeName = "/charges";
+const routeName = "/payments";
 
 const getRecord = async (id) => {
   const response = await axiosRequest.get(`${routeName}/${id}`);
