@@ -20,7 +20,7 @@ if (isLogin()) {
     // Set the AUTH token for any request
     instance.interceptors.request.use((config) => {
         const token = isLogin();
-        config.headers.Authorization = token ? `Bearer ${token}` : "";
+        config.headers.Authorization = token ? `${token}` : "";
         return config;
     });
 }
