@@ -36,7 +36,7 @@ const Remitos = () => {
     handleFilterByDate();
 
     const columns = [
-        { displayName: "Cliente", key: "clientId", position: 0 },
+        { displayName: "Cliente", key: "client", position: 0 },
         { displayName: "N° Remito", key: "remitoId", position: 1 },
         { displayName: "Concepto", key: "observation", position: 2 },
         { displayName: "Precio", key: "price", position: 3 },

@@ -12,7 +12,7 @@ const Invoices = () => {
     const drawerForm = <SalesForm renderData={renderData} />;
 
     const columns = [
-        { displayName: "Cliente", key: "clientId", position: 0 },
+        { displayName: "Cliente", key: "client", position: 0 },
         { displayName: "Fecha", key: "date", position: 1 },
         { displayName: "N° Factura", key: "invoiceId", position: 2 },
         { displayName: "Concepto", key: "concept", position: 3 },
