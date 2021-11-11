@@ -392,13 +392,21 @@ const generateTableContent = (
                             );
                             return rowClient;
                         }
-                        if (key === "productId" || key === "product") {
+                        if (key === "productId") {
                             const rowProduct = (
                                 <Td key={uuidv4()}>
                                     <Text>
                                         {rowValue.lenght > 0 &&
                                             rowValue?.map((val) => val?.name)}
                                     </Text>
+                                </Td>
+                            );
+                            return rowProduct;
+                        }
+                        if (key === "product") {
+                            const rowProduct = (
+                                <Td key={uuidv4()}>
+                                    <Text>{rowValue?.name}</Text>
                                 </Td>
                             );
                             return rowProduct;
