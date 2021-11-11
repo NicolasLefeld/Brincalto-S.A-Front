@@ -2,7 +2,6 @@ import React from "react";
 import { Table as ChakraTable, Box } from "@chakra-ui/react";
 
 const Table = ({ tableContent }) => {
-    console.log(tableContent);
     return (
         <Box overflowX="auto">
             <ChakraTable variant="striped">
