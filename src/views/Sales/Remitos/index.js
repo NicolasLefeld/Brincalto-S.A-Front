@@ -41,7 +41,7 @@ const Remitos = () => {
         { displayName: "Concepto", key: "observation", position: 2 },
         { displayName: "Precio", key: "price", position: 3 },
         { displayName: "Estado", key: "status", position: 4 },
-        { displayName: "Producto", key: "productId", position: 5 },
+        { displayName: "Producto", key: "product", position: 5 },
         { displayName: "Tipo", key: "type", position: 6 },
         { displayName: "Toneladas", key: "tons", position: 7 },
         { displayName: "Procesar", key: "forProcessing", position: 8 },

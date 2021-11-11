@@ -379,11 +379,14 @@ const generateTableContent = (
                                     <Text>
                                         {rowValue === "check" && "Cheque"}
                                     </Text>
+                                    <Text>
+                                        {rowValue === "tons" && "Toneladas"}
+                                    </Text>
                                 </Td>
                             );
                             return rowClient;
                         }
-                        if (key === "productId") {
+                        if (key === "productId" || key === "product") {
                             const rowProduct = (
                                 <Td key={uuidv4()}>
                                     <Text>
