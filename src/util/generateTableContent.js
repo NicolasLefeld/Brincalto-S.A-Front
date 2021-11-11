@@ -380,7 +380,13 @@ const generateTableContent = (
                                         {rowValue === "check" && "Cheque"}
                                     </Text>
                                     <Text>
-                                        {rowValue === "tons" && "Toneladas"}
+                                        {rowValue === "ton" && "Toneladas"}
+                                    </Text>
+                                    <Text>
+                                        {rowValue === "batea" && "Batea"}
+                                    </Text>
+                                    <Text>
+                                        {rowValue === "chasis" && "Chasis"}
                                     </Text>
                                 </Td>
                             );
