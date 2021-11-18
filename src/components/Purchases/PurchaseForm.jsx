@@ -104,6 +104,7 @@ const PurchaseForm = ({ renderData, data }) => {
     };
     await purchasesRequests.postRecord(parsedData);
     renderData.setRender(!renderData.render);
+    reset();
   };
 
   return (
