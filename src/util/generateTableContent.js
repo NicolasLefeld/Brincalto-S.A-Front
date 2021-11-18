@@ -104,7 +104,7 @@ const generateTableContent = (
                     {keys.map((key) => {
                         const rowValue = getDescendantProp(row, key);
                         if(key === "price" || key === "net" || key === "netPlusIva" || key === "total" || key === "amount" || key === "checkingAccount"){
-                            return <Td key={uuidv4()}>$ {rowValue.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</Td>
+                            return <Td key={uuidv4()}>$ {rowValue?.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</Td>
                         }
                         if (key === "action") {
                             const isSpareOrOil = isSpare || isOil;
