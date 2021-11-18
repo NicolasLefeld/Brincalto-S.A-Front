@@ -406,7 +406,7 @@ const generateTableContent = (
                         if (key === "product") {
                             const rowProduct = (
                                 <Td key={uuidv4()}>
-                                    <Text>{rowValue?.name}</Text>
+                                    <Text>{rowValue}</Text>
                                 </Td>
                             );
                             return rowProduct;
