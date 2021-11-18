@@ -98,10 +98,26 @@ const Remitos = () => {
                     <Checkbox
                         placeholder={"Mostrar"}
                         {...register(`showFilter`)}
-                    />
+                    />                                    <Text>{rowValue?.name || rowValue}</Text>
+
                 </HStack>
                 {showFilter && (
                     <>
+                        <Stack>
+                            <FilterByCalendar
+                                from={from}
+                                to={to}
+                                handleDayClick={handleNewRangeFilters}
+                            />
+                            <Button
+                                spacing={10}
+                                color="green.500"
+                                fontSize="md"
+                                onClick={downloadPDF}
+                            >
+                                Imprimir Periodio
+                            </Button>
+                        </Stack>
                         <HStack py={3}>
                             <Select
                                 variant="flushed"
@@ -125,21 +141,6 @@ const Remitos = () => {
                                 <option value="processed">Procesada</option>
                             </Select>
                         </HStack>
-                        <Stack>
-                            <FilterByCalendar
-                                from={from}
-                                to={to}
-                                handleDayClick={handleNewRangeFilters}
-                            />
-                            <Button
-                                spacing={10}
-                                color="green.500"
-                                fontSize="md"
-                                onClick={downloadPDF}
-                            >
-                                Imprimir Periodio
-                            </Button>
-                        </Stack>
                     </>
                 )}
             </Stack>
