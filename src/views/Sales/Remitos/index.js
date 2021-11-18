@@ -184,7 +184,7 @@ const Remitos = () => {
                 return setRemitos(remitosFiltered);
             } else if (clientSelected) {
                 const filterByClientSelected = remitosFiltered.filter(
-                    (sale) => sale.clientId.id === clientSelected,
+                    (sale) => sale.client.id === clientSelected,
                 );
                 return setRemitos(filterByClientSelected);
             } else if (stateSelected === "all" && clientSelected === "all") {
@@ -201,7 +201,7 @@ const Remitos = () => {
                         remitosFiltered.filter(
                             (sale) =>
                                 sale.status === stateSelected &&
-                                sale.clientId.id === clientSelected,
+                                sale.client.id === clientSelected,
                         );
                     return setRemitos(filterByStateAndClientSelected);
                 }
@@ -212,7 +212,7 @@ const Remitos = () => {
             } else if (stateSelected === "all") {
                 if (clientSelected && clientSelected !== "all") {
                     const filterByClientSelected = remitosFiltered.filter(
-                        (sale) => sale.clientId.id === clientSelected,
+                        (sale) => sale.client.id === clientSelected,
                     );
                     return setRemitos(filterByClientSelected);
                 }
