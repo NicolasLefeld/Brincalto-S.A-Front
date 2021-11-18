@@ -20,7 +20,7 @@ const Sales = ({ renderData, data }) => {
     },
   });
 
-  const { register, handleSubmit, watch, setValue } = form;
+  const { register, handleSubmit, watch, setValue, reset } = form;
 
   const isClientSelected = watch("clientId");
   const isTypeSelected = watch("type");
@@ -122,6 +122,7 @@ const Sales = ({ renderData, data }) => {
     };
     await salesRequests.postRecord(parsedData);
     renderData.setRender(!renderData.render);
+    reset();
   };
 
   return (

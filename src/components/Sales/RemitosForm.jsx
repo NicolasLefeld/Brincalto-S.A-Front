@@ -38,7 +38,7 @@ const RemitosForm = ({ renderData, data }) => {
         },
     });
 
-    const { register, handleSubmit, control, watch } = form;
+    const { register, handleSubmit, control, watch, reset } = form;
 
     const { fields, append, remove } = useFieldArray({
         control,
@@ -73,6 +73,7 @@ const RemitosForm = ({ renderData, data }) => {
             );
             renderData.setRender(!renderData.render);
             onClose();
+            reset();
             return result;
         } catch (error) {
             console.log(error);
