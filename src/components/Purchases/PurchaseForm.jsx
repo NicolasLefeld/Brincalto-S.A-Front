@@ -24,7 +24,7 @@ const PurchaseForm = ({ renderData, data }) => {
       status: "pending",
     },
   });
-  const { register, handleSubmit, control, watch, setValue } = form;
+  const { register, handleSubmit, control, watch, setValue, reset } = form;
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -49,6 +49,7 @@ const PurchaseForm = ({ renderData, data }) => {
     const onSubmit = async (data) => {
       await purchasesRequests.updateRecord(id, data);
       renderData.setRender(!renderData.render);
+      reset();
     };
 
     return (
