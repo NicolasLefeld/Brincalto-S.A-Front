@@ -103,7 +103,9 @@ const generateTableContent = (
                 <Tr key={uuidv4()}>
                     {keys.map((key) => {
                         const rowValue = getDescendantProp(row, key);
-
+                        if(key === "price"){
+                            return <Td key={uuidv4()}>{rowValue.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</Td>
+                        }
                         if (key === "action") {
                             const isSpareOrOil = isSpare || isOil;
                             const handleType = isSpare ? "Repuesto" : "Aceite";
