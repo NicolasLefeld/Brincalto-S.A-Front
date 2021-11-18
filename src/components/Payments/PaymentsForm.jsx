@@ -113,7 +113,7 @@ const PaymentsForm = ({ renderData, data }) => {
                                                         "check"
                                                     }
                                                 >
-                                                    Cheque
+                                                    Cheque Propio
                                                 </option>
                                                 <option
                                                     value={"checkOwn"}
@@ -123,7 +123,7 @@ const PaymentsForm = ({ renderData, data }) => {
                                                         "checkOwn"
                                                     }
                                                 >
-                                                    Cheque Propio
+                                                    Cheque
                                                 </option>
                                                 <option
                                                     value={"cash"}
