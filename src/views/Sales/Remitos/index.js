@@ -98,8 +98,10 @@ const Remitos = () => {
                     <Checkbox
                         placeholder={"Mostrar"}
                         {...register(`showFilter`)}
-                    />                                    <Text>{rowValue?.name || rowValue}</Text>
-
+                    />
+                    {rowValue && 
+                        <Text>{rowValue?.name || rowValue}</Text>
+                    }                                    
                 </HStack>
                 {showFilter && (
                     <>
