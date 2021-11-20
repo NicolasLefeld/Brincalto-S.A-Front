@@ -24,6 +24,7 @@ import { useLocation } from "react-router-dom";
 import remitosRequests from "../api/remitosRequests";
 import { useForm } from "react-hook-form";
 import { CustomAlert } from "../components/CustomAlert";
+import { formatCurrency } from "./currencyHelper";
 
 const generateTableContent = (
     columns,
@@ -103,8 +104,26 @@ const generateTableContent = (
                 <Tr key={uuidv4()}>
                     {keys.map((key) => {
                         const rowValue = getDescendantProp(row, key);
-                        if(key === "price" || key === "net" || key === "netPlusIva" || key === "total" || key === "amount" || key === "checkingAccount"){
-                            return <Td key={uuidv4()}>$ {rowValue?.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</Td>
+                        if (
+                            key === "price" ||
+                            key === "net" ||
+                            key === "netPlusIva" ||
+                            key === "total" ||
+                            key === "amount" ||
+                            key === "checkingAccount"
+                        ) {
+                            return (
+                                <Td key={uuidv4()}>
+                                    {/* {rowValue
+                                        ?.toFixed(2)
+                                        .toString()
+                                        .replace(
+                                            /(\d)(?=(\d\d\d)+(?!\d))/g,
+                                            "$1.",
+                                        )} */}
+                                    {formatCurrency(rowValue)}
+                                </Td>
+                            );
                         }
                         if (key === "action") {
                             const isSpareOrOil = isSpare || isOil;
@@ -408,9 +427,11 @@ const generateTableContent = (
                         if (key === "product") {
                             const rowProduct = (
                                 <Td key={uuidv4()}>
-                                    {rowValue && 
-                                        <Text>{rowValue?.name || rowValue}</Text>
-                                    }
+                                    {rowValue && (
+                                        <Text>
+                                            {rowValue?.name || rowValue}
+                                        </Text>
+                                    )}
                                 </Td>
                             );
                             return rowProduct;

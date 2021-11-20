@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 
 const MultiSelectMenu = (props) => {
-    const { label, options, buttonProps } = props;
+    const { label, options, buttonProps, disabled } = props;
     const [selectedOptions, setSelectedOptions] = useState([]);
     return (
         <Menu closeOnSelect={false}>
@@ -35,6 +35,7 @@ const MultiSelectMenu = (props) => {
                         _focus={{
                             outline: "none",
                         }}
+                        disabled={disabled}
                         {...buttonProps}
                     >
                         {`${label}${
@@ -70,23 +71,24 @@ const MultiSelectMenu = (props) => {
                                 props.onChange?.(values);
                             }}
                         >
-                            {options.map((option) => {
-                                return (
-                                    // Use 'type'='button' to make sure it doesn't default to 'type'='submit'.
-                                    <MenuItemOption
-                                        key={`multiselect-menu-${option.id}`}
-                                        type="button"
-                                        value={option.id}
-                                    >
-                                        {option.concept} {" - "}
-                                        {new Date(
-                                            option.date,
-                                        ).toLocaleDateString()}
-                                        {" - "}
-                                        {option.total} $
-                                    </MenuItemOption>
-                                );
-                            })}
+                            {Array.isArray(options) &&
+                                options.map((option) => {
+                                    return (
+                                        // Use 'type'='button' to make sure it doesn't default to 'type'='submit'.
+                                        <MenuItemOption
+                                            key={`multiselect-menu-${option.id}`}
+                                            type="button"
+                                            value={option.id}
+                                        >
+                                            {option.concept} {" - "}
+                                            {new Date(
+                                                option.date,
+                                            ).toLocaleDateString()}
+                                            {" - "}
+                                            {option.total} $
+                                        </MenuItemOption>
+                                    );
+                                })}
                         </MenuOptionGroup>
                     </MenuList>
                 </>

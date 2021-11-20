@@ -5,7 +5,6 @@ import {
     Button,
     DrawerFooter,
     Select,
-    Checkbox,
     HStack,
     Center,
 } from "@chakra-ui/react";
@@ -53,8 +52,6 @@ const ChargesForm = ({ renderData, data }) => {
 
     const onSubmit = async (data) => {
         try {
-            console.log(data);
-            console.log(allCharges);
             const result = await Promise.all(
                 allCharges?.map(async (charge) => {
                     return await chargesRequest.postRecord({
@@ -64,7 +61,6 @@ const ChargesForm = ({ renderData, data }) => {
                     });
                 }),
             );
-            console.log(result);
             renderData.setRender(!renderData.render);
             const idAllSales = result?.map((charge) => charge._id);
             const pdf = await chargesRequest.downloadPDF({
@@ -79,13 +75,14 @@ const ChargesForm = ({ renderData, data }) => {
             link.click();
             link.remove();
             console.log(result);
-            // return result;
             URL.revokeObjectURL(blobUrl);
             return result;
         } catch (error) {
             console.log(error);
         }
     };
+
+    const isPendingInvoices = Array.isArray(pendingInvoicesOfClient);
 
     return (
         <>
@@ -95,9 +92,14 @@ const ChargesForm = ({ renderData, data }) => {
                     {idClientSelected && (
                         <>
                             <MultiSelectMenu
-                                label="Facturas pendientes del cliente"
+                                label={
+                                    isPendingInvoices
+                                        ? "Facturas pendientes del cliente"
+                                        : "No hay facturas pendientes del cliente"
+                                }
                                 options={pendingInvoicesOfClient}
                                 onChange={setInvoicesAll}
+                                disabled={!isPendingInvoices}
                             />
                             {fields.map((field, index) => {
                                 const typeRemito = watch(
