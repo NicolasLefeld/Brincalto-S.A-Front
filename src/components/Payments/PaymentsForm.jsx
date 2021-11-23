@@ -154,20 +154,21 @@ const PaymentsForm = ({ renderData, data }) => {
                                                     placeholder="Seleccione un cheque propio"
                                                     required
                                                 >
-                                                    {checks?.map((check) => (
-                                                        <option
-                                                            value={check.id}
-                                                        >
-                                                            Vto{" "}
-                                                            {new Date(
-                                                                check.expirationDate,
-                                                            ).toLocaleDateString(
-                                                                "es-AR",
-                                                            )}
-                                                            {" / "}
-                                                            {check.amount} $
-                                                        </option>
-                                                    ))}
+                                                    {Array.isArray(checks) &&
+                                                        checks?.map((check) => (
+                                                            <option
+                                                                value={check.id}
+                                                            >
+                                                                Vto{" "}
+                                                                {new Date(
+                                                                    check.expirationDate,
+                                                                ).toLocaleDateString(
+                                                                    "es-AR",
+                                                                )}
+                                                                {" / "}
+                                                                {check.amount} $
+                                                            </option>
+                                                        ))}
                                                 </Select>
                                             ) : (
                                                 <>
