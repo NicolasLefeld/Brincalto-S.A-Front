@@ -356,25 +356,17 @@ const generateTableContent = (
                             );
                             return rowExtras;
                         }
-                        if (key === "provider") {
-                            const rowProvider = (
-                                <Td key={uuidv4()}>
-                                    <Text>{rowValue.name}</Text>
-                                </Td>
-                            );
-                            return rowProvider;
-                        }
                         if (
                             key === "clientId" ||
                             key === "client" ||
-                            key === "from"
+                            key === "from" ||
+                            key === "provider"
                         ) {
-                            const rowClient = (
+                            return (
                                 <Td key={uuidv4()}>
                                     <Text>{rowValue?.name}</Text>
                                 </Td>
                             );
-                            return rowClient;
                         }
                         if (key === "checkId") {
                             const rowClient = (
@@ -393,20 +385,10 @@ const generateTableContent = (
                                 <Td key={uuidv4()}>
                                     <Text>
                                         {rowValue === "cash" && "Efectivo"}
-                                    </Text>
-                                    <Text>
                                         {rowValue === "others" && "Otros"}
-                                    </Text>
-                                    <Text>
                                         {rowValue === "check" && "Cheque"}
-                                    </Text>
-                                    <Text>
                                         {rowValue === "ton" && "Toneladas"}
-                                    </Text>
-                                    <Text>
                                         {rowValue === "batea" && "Batea"}
-                                    </Text>
-                                    <Text>
                                         {rowValue === "chasis" && "Chasis"}
                                     </Text>
                                 </Td>
