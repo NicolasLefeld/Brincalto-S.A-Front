@@ -71,10 +71,9 @@ const ChargesForm = ({ renderData, data }) => {
             const blobUrl = window.URL.createObjectURL(pdfBlob);
             const link = document.createElement("a");
             link.href = blobUrl;
-            link.setAttribute("download", `Cobros-${new Date()}.pdf`);
+            link.setAttribute("download", `Orden de pago - ${new Date()}.pdf`);
             link.click();
             link.remove();
-            console.log(result);
             URL.revokeObjectURL(blobUrl);
             return result;
         } catch (error) {
