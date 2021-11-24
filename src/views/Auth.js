@@ -20,8 +20,7 @@ function Auth() {
                                     Brincalto S.A
                                 </Heading>
                                 <Text fontSize={"lg"}>
-                                    Gestión de
-                                    <Link color={"blue.400"}> Ripera</Link> ✌️
+                                    Gestión
                                 </Text>
                             </Stack>
                             <Box rounded={"lg"} boxShadow={"lg"} p={8}>

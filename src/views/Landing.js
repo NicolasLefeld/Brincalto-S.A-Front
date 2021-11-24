@@ -41,7 +41,9 @@ export default function BasicStatistics() {
         Brincalto S. A.
       </chakra.h1>
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
-        <StatsCard title={'Ejemplo de carta'} stat={'... $'} />
+        <StatsCard title={''} stat={'... $'} />
+        <StatsCard title={''} stat={'... $'} />
+        <StatsCard title={''} stat={'... $'} />
       </SimpleGrid>
     </Box>
   );
