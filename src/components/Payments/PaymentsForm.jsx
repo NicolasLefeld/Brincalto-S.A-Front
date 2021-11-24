@@ -22,9 +22,12 @@ const PaymentsForm = ({ renderData, data }) => {
     useEffect(async () => {
         const checks = await checkWalletRequest.getRecords();
         if (checks) {
-            const checksParsed = checks.filter((check) => check.status === "received")
-
-            setChecks(checksParsed);
+            if (Array.isArray(checks)){
+                const checksParsed = checks.filter((check) => check.status === "received")
+    
+                setChecks(checksParsed);
+            }
+            setChecks(checks);
         }
     }, []);
 
