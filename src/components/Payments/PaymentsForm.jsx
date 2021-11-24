@@ -70,10 +70,9 @@ const PaymentsForm = ({ renderData, data }) => {
             const blobUrl = window.URL.createObjectURL(pdfBlob);
             const link = document.createElement("a");
             link.href = blobUrl;
-            link.setAttribute("download", `Cobros-${new Date()}.pdf`);
+            link.setAttribute("download", `Recibo - ${new Date()}.pdf`);
             link.click();
             link.remove();
-            console.log(result);
             // return result;
             URL.revokeObjectURL(blobUrl);
             return result;
@@ -155,20 +154,21 @@ const PaymentsForm = ({ renderData, data }) => {
                                                     placeholder="Seleccione un cheque propio"
                                                     required
                                                 >
-                                                    {checks?.map((check) => (
-                                                        <option
-                                                            value={check.id}
-                                                        >
-                                                            Vto{" "}
-                                                            {new Date(
-                                                                check.expirationDate,
-                                                            ).toLocaleDateString(
-                                                                "es-AR",
-                                                            )}
-                                                            {" / "}
-                                                            {check.amount} $
-                                                        </option>
-                                                    ))}
+                                                    {Array.isArray(checks) &&
+                                                        checks?.map((check) => (
+                                                            <option
+                                                                value={check.id}
+                                                            >
+                                                                Vto{" "}
+                                                                {new Date(
+                                                                    check.expirationDate,
+                                                                ).toLocaleDateString(
+                                                                    "es-AR",
+                                                                )}
+                                                                {" / "}
+                                                                {check.amount} $
+                                                            </option>
+                                                        ))}
                                                 </Select>
                                             ) : (
                                                 <>
