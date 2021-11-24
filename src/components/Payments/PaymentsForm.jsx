@@ -50,15 +50,17 @@ const PaymentsForm = ({ renderData, data }) => {
         try {
             const result = await Promise.all(
                 allCharges?.map(async (charge) => {
+                    console.log("acaaaa", charge);
                     return await paymentsRequest.postRecord({
                         ...charge,
                         providerId: isProviderSelected,
                         paymentComment,
-                        paymentMethod:
-                            charge.paymentMethod === "checkOwn" ||
-                            charge.paymentMethod === "check"
-                                ? "check"
-                                : charge.paymentMethod,
+                        checkId: charge.check_id,
+                        // paymentMethod:
+                        //     charge.paymentMethod === "checkOwn" ||
+                        //     charge.paymentMethod === "check"
+                        //         ? "check"
+                        //         : charge.paymentMethod,
                     });
                 }),
             );
@@ -104,21 +106,21 @@ const PaymentsForm = ({ renderData, data }) => {
                                                 required
                                             >
                                                 <option
-                                                    value={"check"}
-                                                    selected={
-                                                        allCharges[index]
-                                                            .paymentMethod ===
-                                                        "check"
-                                                    }
-                                                >
-                                                    Cheque Propio
-                                                </option>
-                                                <option
                                                     value={"checkOwn"}
                                                     selected={
                                                         allCharges[index]
                                                             .paymentMethod ===
                                                         "checkOwn"
+                                                    }
+                                                >
+                                                    Cheque Propio
+                                                </option>
+                                                <option
+                                                    value={"checkThirdParty"}
+                                                    selected={
+                                                        allCharges[index]
+                                                            .paymentMethod ===
+                                                        "checkThirdParty"
                                                     }
                                                 >
                                                     Cheque
@@ -144,7 +146,8 @@ const PaymentsForm = ({ renderData, data }) => {
                                                     Otros
                                                 </option>
                                             </Select>
-                                            {typeRemito === "checkOwn" ? (
+                                            {typeRemito ===
+                                            "checkThirdParty" ? (
                                                 <Select
                                                     {...register(
                                                         `payments.${index}.check_id`,
@@ -201,7 +204,8 @@ const PaymentsForm = ({ renderData, data }) => {
                                                         type="number"
                                                         step="any"
                                                     />
-                                                    {typeRemito === "check" && (
+                                                    {typeRemito ===
+                                                        "checkOwn" && (
                                                         <>
                                                             <Input
                                                                 {...register(
