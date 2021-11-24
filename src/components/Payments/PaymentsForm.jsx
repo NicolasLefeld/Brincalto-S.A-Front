@@ -22,7 +22,9 @@ const PaymentsForm = ({ renderData, data }) => {
     useEffect(async () => {
         const checks = await checkWalletRequest.getRecords();
         if (checks) {
-            setChecks(checks);
+            const checksParsed = checks.filter((check) => check.status === "received")
+
+            setChecks(checksParsed);
         }
     }, []);
 
@@ -46,8 +48,6 @@ const PaymentsForm = ({ renderData, data }) => {
 
     const onSubmit = async (data) => {
         try {
-            console.log(data);
-            console.log(allCharges);
             const result = await Promise.all(
                 allCharges?.map(async (charge) => {
                     return await paymentsRequest.postRecord({
@@ -62,7 +62,6 @@ const PaymentsForm = ({ renderData, data }) => {
                     });
                 }),
             );
-            console.log(result);
             renderData.setRender(!renderData.render);
             const idAllSales = result?.map((charge) => charge._id);
             const pdf = await paymentsRequest.downloadPDF(idAllSales);
