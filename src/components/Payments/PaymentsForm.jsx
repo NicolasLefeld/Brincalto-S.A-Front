@@ -15,21 +15,28 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import SelectProvider from "../Provider/SelectProvider";
 import checkWalletRequest from "../../api/checkWalletRequest";
 import { useEffect, useState } from "react";
+import { formatCurrency } from "../../util/currencyHelper";
 
 const PaymentsForm = ({ renderData, data }) => {
     const [checks, setChecks] = useState([]);
 
-    useEffect(async () => {
-        const checks = await checkWalletRequest.getRecords();
-        if (checks) {
-            if (Array.isArray(checks)){
-                const checksParsed = checks.filter((check) => check.status === "received")
-    
-                setChecks(checksParsed);
+    useEffect(() => {
+        const getChecks = async () => {
+            const checks = await checkWalletRequest.getRecords();
+            if (checks) {
+                if (Array.isArray(checks)) {
+                    const checksParsed = checks.filter(
+                        (check) => check.status === "received",
+                    );
+                    console.log(checksParsed);
+                    return setChecks(checksParsed);
+                }
+                return setChecks(checks);
             }
-            setChecks(checks);
-        }
-    }, []);
+        };
+
+        getChecks();
+    }, [checks]);
 
     const form = useForm({
         defaultValues: {
@@ -156,7 +163,7 @@ const PaymentsForm = ({ renderData, data }) => {
                                                         `payments.${index}.check_id`,
                                                     )}
                                                     variant="flushed"
-                                                    placeholder="Seleccione un cheque propio"
+                                                    placeholder="Seleccionate un cheque pa"
                                                     required
                                                 >
                                                     {Array.isArray(checks) &&
@@ -170,8 +177,10 @@ const PaymentsForm = ({ renderData, data }) => {
                                                                 ).toLocaleDateString(
                                                                     "es-AR",
                                                                 )}
-                                                                {" / "}
-                                                                {check.amount} $
+                                                                ,{" "}
+                                                                {formatCurrency(
+                                                                    check.amount,
+                                                                )}
                                                             </option>
                                                         ))}
                                                 </Select>
