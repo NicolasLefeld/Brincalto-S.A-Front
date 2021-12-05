@@ -17,7 +17,7 @@ const AuthForm = () => {
     } = useForm();
 
     const onSubmit = async (data) => {
-        const submitRequest = await request.putAuth(data);
+        const submitRequest = await request.postAuth(data);
 
         if (submitRequest?.accessToken) {
             login(submitRequest.accessToken);

@@ -1,7 +1,7 @@
 import axiosRequest from "./axiosRequest";
 
-const putAuth = async (data) => {
-  const response = await axiosRequest.put(`/auth`, data);
+const postAuth = async (data) => {
+  const response = await axiosRequest.post(`/auth`, data);
   console.log("auth fetched ", response.data);
   return response.data;
 };
@@ -31,7 +31,7 @@ const putAuth = async (data) => {
 // };
 
 export default {
-  putAuth,
+  postAuth,
   // getRecords,
   // postRecord,
   // updateRecord,
